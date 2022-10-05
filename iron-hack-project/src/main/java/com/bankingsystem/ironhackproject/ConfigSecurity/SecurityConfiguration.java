@@ -1,0 +1,53 @@
+package com.bankingsystem.ironhackproject.ConfigSecurity;
+
+import com.bankingsystem.ironhackproject.ConfigSecurity.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+public class SecurityConfiguration {
+    @Autowired
+    CustomUserDetailsService userDetailsService;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder passwordEncoder) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder)
+                .and().build();
+    }
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.httpBasic();
+        http.csrf().disable();
+        http.authorizeRequests()
+                .mvcMatchers(HttpMethod.GET).hasRole("ACCOUNT_HOLDER")
+                .mvcMatchers(HttpMethod.GET).hasRole("THIRD_PARTY")
+                .mvcMatchers(HttpMethod.GET).hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.POST).hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.PATCH).hasRole("ADMIN")
+                .anyRequest().permitAll();
+
+        return http.build();
+    }
+
+
+
+}
