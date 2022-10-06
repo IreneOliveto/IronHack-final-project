@@ -18,14 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class CreditCardTest {
     final static int ACCOUNT_ID = 1;
     final static Money SIX_HUNDRED_EUROS = new Money(BigDecimal.valueOf(600), Currency.getInstance("EUR"));
-    final static BigDecimal EXPECTED_BALANCE = BigDecimal.valueOf(732);
+    final static Money EXPECTED_BALANCE = new Money(BigDecimal.valueOf(672));
     final static AccountHolder ACCOUNT_HOLDER = new AccountHolder();
     final static BigDecimal PENALTY_FEE = BigDecimal.valueOf(20);
-    final static int SECRET_KEY = 5;
-    final static BigDecimal MONTHLY_MAINTENANCE_FEE = BigDecimal.valueOf(100);
-    final static BigDecimal MINIMUM_BALANCE = BigDecimal.valueOf(100);
+
     final static LocalDate CREATION_DATE = LocalDate.of(2021, 10, 10);
-    final static Status STATUS = Status.ACTIVE;
     final static BigDecimal DEFAULT_CREDIT_LIMIT = BigDecimal.valueOf(100);
     final static BigDecimal VALID_CREDIT_LIMIT = BigDecimal.valueOf(100000);
     final static BigDecimal INVALID_CREDIT_LIMIT = BigDecimal.valueOf(200000);
@@ -41,14 +38,9 @@ class CreditCardTest {
                 SIX_HUNDRED_EUROS,
                 ACCOUNT_HOLDER,
                 PENALTY_FEE,
-                SECRET_KEY,
-                MONTHLY_MAINTENANCE_FEE,
-                MINIMUM_BALANCE,
-                CREATION_DATE,
-                STATUS,
                 null,
-                null
-
+                null,
+                CREATION_DATE
         );
 
         assertEquals(DEFAULT_CREDIT_LIMIT, creditcard.getCreditLimit());
@@ -62,13 +54,9 @@ class CreditCardTest {
                 SIX_HUNDRED_EUROS,
                 ACCOUNT_HOLDER,
                 PENALTY_FEE,
-                SECRET_KEY,
-                MONTHLY_MAINTENANCE_FEE,
-                MINIMUM_BALANCE,
-                CREATION_DATE,
-                STATUS,
                 VALID_CREDIT_LIMIT,
-                null
+                null,
+                CREATION_DATE
         );
 
         assertEquals(DEFAULT_INTEREST_RATE, creditcard.getInterestRate());
@@ -81,13 +69,9 @@ class CreditCardTest {
                 SIX_HUNDRED_EUROS,
                 ACCOUNT_HOLDER,
                 PENALTY_FEE,
-                SECRET_KEY,
-                MONTHLY_MAINTENANCE_FEE,
-                MINIMUM_BALANCE,
-                CREATION_DATE,
-                STATUS,
                 null,
-                VALID_INTEREST_RATE
+                VALID_INTEREST_RATE,
+                CREATION_DATE
         );
 
         assertEquals(DEFAULT_CREDIT_LIMIT, creditcard.getCreditLimit());
@@ -97,17 +81,13 @@ class CreditCardTest {
     void whenCreditLimitIsNotValid_shouldThrowException() {
         assertThrows(IllegalArgumentException.class,
                 () -> new CreditCard(
-                ACCOUNT_ID,
-                SIX_HUNDRED_EUROS,
-                ACCOUNT_HOLDER,
-                PENALTY_FEE,
-                SECRET_KEY,
-                MONTHLY_MAINTENANCE_FEE,
-                MINIMUM_BALANCE,
-                CREATION_DATE,
-                STATUS,
-                INVALID_CREDIT_LIMIT,
-                VALID_INTEREST_RATE
+                        ACCOUNT_ID,
+                        SIX_HUNDRED_EUROS,
+                        ACCOUNT_HOLDER,
+                        PENALTY_FEE,
+                        INVALID_CREDIT_LIMIT,
+                        VALID_INTEREST_RATE,
+                        CREATION_DATE
         ));
     }
 
@@ -119,32 +99,23 @@ class CreditCardTest {
                 SIX_HUNDRED_EUROS,
                 ACCOUNT_HOLDER,
                 PENALTY_FEE,
-                SECRET_KEY,
-                MONTHLY_MAINTENANCE_FEE,
-                MINIMUM_BALANCE,
-                CREATION_DATE,
-                STATUS,
                 VALID_CREDIT_LIMIT,
-                INVALID_INTEREST_RATE
+                INVALID_INTEREST_RATE,
+                CREATION_DATE
         ));
     }
 
     @Test
-    void whenSavingBalanceIsAccessed_shouldAddAppropriateInterestRate() {
+    void whenCreditCardBalanceIsAccessed_shouldAddAppropriateInterestRate() {
         CreditCard creditCard = new CreditCard(
                 ACCOUNT_ID,
                 SIX_HUNDRED_EUROS,
                 ACCOUNT_HOLDER,
                 PENALTY_FEE,
-                SECRET_KEY,
-                MONTHLY_MAINTENANCE_FEE,
-                MINIMUM_BALANCE,
-                CREATION_DATE,
-                STATUS,
                 VALID_CREDIT_LIMIT,
-                DEFAULT_INTEREST_RATE
+                DEFAULT_INTEREST_RATE,
+                CREATION_DATE
         );
-        assertEquals(EXPECTED_BALANCE.setScale(2, RoundingMode.HALF_EVEN),
-                creditCard.getBalance().getAmount().setScale(2, RoundingMode.HALF_EVEN));
+        assertEquals(EXPECTED_BALANCE.getAmount(), creditCard.getBalance().getAmount());
     }
 }

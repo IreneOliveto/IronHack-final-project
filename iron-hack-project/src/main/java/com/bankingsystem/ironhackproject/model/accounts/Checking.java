@@ -4,6 +4,8 @@ import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.bankingsystem.ironhackproject.model.utils.Status;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
