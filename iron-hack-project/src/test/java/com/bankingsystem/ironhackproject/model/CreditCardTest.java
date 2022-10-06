@@ -1,7 +1,6 @@
 package com.bankingsystem.ironhackproject.model;
 
 import com.bankingsystem.ironhackproject.model.accounts.CreditCard;
-import com.bankingsystem.ironhackproject.model.accounts.Savings;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.bankingsystem.ironhackproject.model.utils.Status;
@@ -19,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CreditCardTest {
     final static int ACCOUNT_ID = 1;
     final static Money SIX_HUNDRED_EUROS = new Money(BigDecimal.valueOf(600), Currency.getInstance("EUR"));
-    final static BigDecimal EXPECTED_BALANCE = BigDecimal.valueOf(690);
+    final static BigDecimal EXPECTED_BALANCE = BigDecimal.valueOf(732);
     final static AccountHolder ACCOUNT_HOLDER = new AccountHolder();
     final static BigDecimal PENALTY_FEE = BigDecimal.valueOf(20);
     final static int SECRET_KEY = 5;
     final static BigDecimal MONTHLY_MAINTENANCE_FEE = BigDecimal.valueOf(100);
     final static BigDecimal MINIMUM_BALANCE = BigDecimal.valueOf(100);
-    final static LocalDate CREATION_DATE = LocalDate.of(2022, 1, 01);
+    final static LocalDate CREATION_DATE = LocalDate.of(2021, 10, 10);
     final static Status STATUS = Status.ACTIVE;
     final static BigDecimal DEFAULT_CREDIT_LIMIT = BigDecimal.valueOf(100);
     final static BigDecimal VALID_CREDIT_LIMIT = BigDecimal.valueOf(100000);

@@ -6,6 +6,7 @@ import com.bankingsystem.ironhackproject.model.utils.Status;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Currency;
@@ -60,25 +61,46 @@ public class CreditCard extends Checking {
 
     @Override
     public Money getBalance() {
-        LocalDate creationCreditCard = getCreationDate();
-        LocalDate today = LocalDate.now();
-        Period period = Period.between(today, creationCreditCard);
-        int creditCardActiveMonths = period.getMonths();
+        Period periodSinceUpdate = Period.between(getUpdateDate() != null ? getUpdateDate() : LocalDate.now(), LocalDate.now());
+        Period periodSinceCreation = Period.between(getCreationDate(), LocalDate.now());
 
-        BigDecimal creditCardBalance = balance.getAmount();
-        BigDecimal interestRate = getInterestRate();
+        int activeMonthsSinceUpdate = periodSinceUpdate.getMonths() + (periodSinceUpdate.getYears()*12);
+        int activeMonthsSinceCreation = periodSinceCreation.getMonths() + (periodSinceCreation.getYears()*12);
 
-        BigDecimal monthlyInterestRate = (
+        BigDecimal annualInterestRateDividedPerMonth = getInterestRate().divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_EVEN);
+        BigDecimal interestRatePerMonth = balance.getAmount().multiply(annualInterestRateDividedPerMonth);
+
+        if(getUpdateDate() != null && periodSinceUpdate.getMonths() > 1) {
+
+            for (int i = 1; i <= activeMonthsSinceUpdate; i++) {
+
+                BigDecimal newBalance = balance.getAmount().add(interestRatePerMonth);
+
+                balance = new Money(newBalance);
+                this.setUpdateDate(LocalDate.now());
+            }
+        } else if (getUpdateDate() == null && activeMonthsSinceCreation > 1) {
+
+            for (int i = 1; i <= activeMonthsSinceCreation; i++) {
+
+                BigDecimal newBalance = balance.getAmount().add(interestRatePerMonth);
+
+                balance = new Money(newBalance);
+                this.setUpdateDate(LocalDate.now());
+            }
+        }
+
+        return balance;
+    }
+}
+
+        /* BigDecimal monthlyInterestRate = (
                 creditCardBalance
                         .multiply(interestRate).divide(BigDecimal.valueOf(12))
-                        .multiply(BigDecimal.valueOf(creditCardActiveMonths))
-                        .multiply(BigDecimal.valueOf(-1)));
+                        .multiply(BigDecimal.valueOf(creditCardActiveMonths)));
         Money updatedBalanceMonthlyInterestRate = new Money(balance.increaseAmount(monthlyInterestRate),
                 Currency.getInstance("EUR"));
 
         if(creditCardActiveMonths > 1) {
             return updatedBalanceMonthlyInterestRate;
-        }
-        return balance;
-    }
-}
+        } */

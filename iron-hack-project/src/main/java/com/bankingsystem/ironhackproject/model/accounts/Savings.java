@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Currency;
 
 @Entity
 public class Savings extends Checking {
@@ -70,17 +69,36 @@ public class Savings extends Checking {
 
     @Override
     public Money getBalance() {
-
-        LocalDate creationSavings = getCreationDate();
         LocalDate updateDate = getUpdateDate();
         LocalDate today = LocalDate.now();
+
         Period periodSinceUpdate = Period.between(updateDate != null ? updateDate : today, today);
-        Period periodSinceCreation = Period.between(creationSavings, today);
+        Period periodSinceCreation = Period.between(getCreationDate(), today);
 
-        BigDecimal savingsBalance = balance.getAmount();
-        BigDecimal interestRate = getInterestRate();
+        if(updateDate != null && periodSinceUpdate.getYears() > 1) {
+            for (int i = 1; i <= periodSinceUpdate.getYears(); i++) {
+                BigDecimal annualInterestRate = balance.getAmount().multiply(getInterestRate());
+                BigDecimal newBalance = balance.getAmount().add(annualInterestRate);
 
-        //balance * (intRate ^ numYears)
+                balance = new Money(newBalance);
+                this.setUpdateDate(LocalDate.now());
+            }
+        } else if (updateDate == null && periodSinceCreation.getYears() > 1) {
+            for (int i = 1; i <= periodSinceCreation.getYears(); i++) {
+                BigDecimal annualInterestRate = balance.getAmount().multiply(interestRate);
+                BigDecimal newBalance = balance.getAmount().add(annualInterestRate);
+
+                balance = new Money(newBalance);
+                this.setUpdateDate(LocalDate.now());
+            }
+        }
+        return balance;
+    }
+}
+
+
+/*
+balance * (intRate ^ numYears)
         if(updateDate != null && periodSinceUpdate.getYears() > 1) {
             BigDecimal resultingBalance = (
                     savingsBalance
@@ -102,13 +120,8 @@ public class Savings extends Checking {
 
             setBalance(updatedBalanceIR);
             this.setUpdateDate(LocalDate.now());
-
         }
-        //TODO: save new balance with update date
-
-        return balance;
-    }
-}
+*/
 
 
 

@@ -99,7 +99,6 @@ public class Checking extends Account {
         LocalDate today = LocalDate.now();
 
         Period periodSinceUpdate = Period.between(updateDate != null ? updateDate : today, today);
-        Period periodSinceCreation = Period.between(creationDate, today);
 
         int monthsPerYear = periodSinceUpdate.getYears() * 12;
         int monthsThisYear = periodSinceUpdate.getMonths();
@@ -121,12 +120,9 @@ public class Checking extends Account {
 
         } else if (checkingAmount.compareTo(minimumBalance) < 0) {
             BigDecimal balancePenaltyFeePaid = checkingAmount.subtract(getPenaltyFee());
-            Money updatedBalancePenaltyFee = new Money(balancePenaltyFeePaid);
-            balance = updatedBalancePenaltyFee;
+            balance = new Money(balancePenaltyFeePaid);
             return balance;
         }
-
-
         return balance;
     }
 }
