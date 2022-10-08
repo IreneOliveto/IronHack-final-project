@@ -1,7 +1,6 @@
 package com.bankingsystem.ironhackproject.controller;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
-import com.bankingsystem.ironhackproject.model.accounts.CreditCard;
 import com.bankingsystem.ironhackproject.model.accounts.Savings;
 import com.bankingsystem.ironhackproject.service.SavingsService;
 import org.springframework.beans.factory.annotation.Autowired;
