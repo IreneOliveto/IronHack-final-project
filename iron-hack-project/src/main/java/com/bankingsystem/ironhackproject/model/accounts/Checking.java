@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
@@ -20,6 +21,7 @@ public class Checking extends Account {
     protected int secretKey;
     protected BigDecimal minimumBalance;
     protected BigDecimal monthlyMaintenanceFee;
+    @Valid
     protected LocalDate creationDate;
     @Nullable
     private LocalDate updateDate;
@@ -101,9 +103,10 @@ public class Checking extends Account {
         LocalDate today = LocalDate.now();
 
         Period periodSinceUpdate = Period.between(updateDate != null ? updateDate : today, today);
+        Period periodSinceUpdateOrCreation = Period.between(updateDate == null ? creationDate : updateDate, today);
 
-        int monthsPerYear = periodSinceUpdate.getYears() * 12;
-        int monthsThisYear = periodSinceUpdate.getMonths();
+        int monthsPerYear = periodSinceUpdateOrCreation.getYears() * 12;
+        int monthsThisYear = periodSinceUpdateOrCreation.getMonths();
         int checkingActiveMonths = monthsThisYear + monthsPerYear;
 
         BigDecimal checkingAmount = balance.getAmount();
