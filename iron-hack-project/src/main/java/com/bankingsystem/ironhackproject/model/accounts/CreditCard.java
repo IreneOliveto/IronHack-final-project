@@ -2,7 +2,6 @@ package com.bankingsystem.ironhackproject.model.accounts;
 
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
-import com.bankingsystem.ironhackproject.model.utils.Status;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
@@ -10,7 +9,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Currency;
 
 @Entity
 public class CreditCard extends Account {
@@ -19,7 +17,7 @@ public class CreditCard extends Account {
     private BigDecimal interestRate;
     protected LocalDate creationDate;
     @Nullable
-    private LocalDate updateDate;
+    private LocalDate lastModifiedDate;
 
     public CreditCard() {
         super();
@@ -73,19 +71,19 @@ public class CreditCard extends Account {
     }
 
     @Nullable
-    public LocalDate getUpdateDate() {
-        return updateDate;
+    public LocalDate getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setUpdateDate(@Nullable LocalDate updateDate) {
-        this.updateDate = updateDate;
+    public void setLastModifiedDate(@Nullable LocalDate updateDate) {
+        this.lastModifiedDate = updateDate;
     }
 
     @Override
     public Money getBalance() {
-        LocalDate updateDate = getUpdateDate();
+        LocalDate updateDate = getLastModifiedDate();
 
-        Period periodSinceUpdate = Period.between(getUpdateDate() != null ? getUpdateDate() : LocalDate.now(), LocalDate.now());
+        Period periodSinceUpdate = Period.between(getLastModifiedDate() != null ? getLastModifiedDate() : LocalDate.now(), LocalDate.now());
         Period periodSinceCreation = Period.between(getCreationDate(), LocalDate.now());
 
         int activeMonthsSinceUpdate = (int) periodSinceUpdate.toTotalMonths();
@@ -99,14 +97,14 @@ public class CreditCard extends Account {
             for (int i = 1; i <= activeMonthsSinceUpdate; i++) {
                 BigDecimal newBalance = balance.getAmount().add(interestRatePerMonth);
                 balance = new Money(newBalance);
-                this.setUpdateDate(LocalDate.now());
+                this.setLastModifiedDate(LocalDate.now());
                 i++;
             }
         } else if (updateDate == null && periodSinceCreation.getMonths() > 1){
             for (int i = 1; i <= activeMonthsSinceCreation; i++) {
                 BigDecimal newBalance = balance.getAmount().add(interestRatePerMonth);
                 balance = new Money(newBalance);
-                this.setUpdateDate(LocalDate.now());
+                this.setLastModifiedDate(LocalDate.now());
                 i++;
             }
         }

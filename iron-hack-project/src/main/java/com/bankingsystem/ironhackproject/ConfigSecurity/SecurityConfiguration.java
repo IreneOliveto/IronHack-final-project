@@ -38,11 +38,11 @@ public class SecurityConfiguration {
         http.httpBasic();
         http.csrf().disable();
         http.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET).hasRole("ACCOUNT_HOLDER")
+                .mvcMatchers(HttpMethod.GET, "/user/{accountId}").hasRole("ACCOUNT_HOLDER")
                 .mvcMatchers(HttpMethod.GET).hasRole("THIRD_PARTY")
-                .mvcMatchers(HttpMethod.GET).hasRole("ADMIN")
-                .mvcMatchers(HttpMethod.POST).hasRole("ADMIN")
-                .mvcMatchers(HttpMethod.PATCH).hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.GET, "/admin/").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.POST, "/admin/").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.PATCH, "/admin/").hasRole("ADMIN")
                 .anyRequest().permitAll();
 
         return http.build();

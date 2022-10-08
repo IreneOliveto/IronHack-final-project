@@ -15,7 +15,7 @@ public class Savings extends Checking {
     private BigDecimal interestRate;
 
     @Nullable
-    private LocalDate updateDate;
+    private LocalDate lastModifiedDate;
 
     public Savings() {
         super();
@@ -59,17 +59,17 @@ public class Savings extends Checking {
         }
     }
 
-    public LocalDate getUpdateDate() {
-        return updateDate;
+    public LocalDate getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setUpdateDate(LocalDate lastUpdateDate) {
-        this.updateDate = lastUpdateDate;
+    public void setLastModifiedDate(LocalDate lastUpdateDate) {
+        this.lastModifiedDate = lastUpdateDate;
     }
 
     @Override
     public Money getBalance() {
-        LocalDate updateDate = getUpdateDate();
+        LocalDate updateDate = getLastModifiedDate();
         LocalDate today = LocalDate.now();
 
         Period periodSinceUpdate = Period.between(updateDate != null ? updateDate : today, today);
@@ -81,7 +81,7 @@ public class Savings extends Checking {
                 BigDecimal newBalance = balance.getAmount().add(annualInterestRate);
 
                 balance = new Money(newBalance);
-                this.setUpdateDate(LocalDate.now());
+                this.setLastModifiedDate(LocalDate.now());
             }
         } else if (updateDate == null && periodSinceCreation.getYears() > 1) {
             for (int i = 1; i <= periodSinceCreation.getYears(); i++) {
@@ -89,7 +89,7 @@ public class Savings extends Checking {
                 BigDecimal newBalance = balance.getAmount().add(annualInterestRate);
 
                 balance = new Money(newBalance);
-                this.setUpdateDate(LocalDate.now());
+                this.setLastModifiedDate(LocalDate.now());
             }
         }
         return balance;
@@ -108,7 +108,7 @@ balance * (intRate ^ numYears)
                     Currency.getInstance("EUR"));
 
             setBalance(updatedBalanceIR);
-            this.setUpdateDate(LocalDate.now());
+            this.setLastModifiedDate(LocalDate.now());
 
         } else if (updateDate == null && periodSinceCreation.getYears() > 1) {
             BigDecimal resultingBalance = (
@@ -119,7 +119,7 @@ balance * (intRate ^ numYears)
                     Currency.getInstance("EUR"));
 
             setBalance(updatedBalanceIR);
-            this.setUpdateDate(LocalDate.now());
+            this.setLastModifiedDate(LocalDate.now());
         }
 */
 

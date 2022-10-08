@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Role {
-
     @Id
     @GeneratedValue
     private Integer id;

@@ -3,8 +3,6 @@ package com.bankingsystem.ironhackproject.model.accounts;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.bankingsystem.ironhackproject.model.utils.Status;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.lang.Nullable;
@@ -14,7 +12,6 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Currency;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -27,7 +24,7 @@ public class Checking extends Account {
     protected LocalDate creationDate;
     @Nullable
     @LastModifiedDate
-    private LocalDate updateDate;
+    private LocalDate lastModifiedDate;
 
     @Enumerated(EnumType.STRING)
     protected Status status;
@@ -82,12 +79,12 @@ public class Checking extends Account {
     }
 
     @Nullable
-    public LocalDate getUpdateDate() {
-        return updateDate;
+    public LocalDate getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setUpdateDate(@Nullable LocalDate updateDate) {
-        this.updateDate = updateDate;
+    public void setLastModifiedDate(@Nullable LocalDate lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Status getStatus() {
@@ -102,7 +99,7 @@ public class Checking extends Account {
     public Money getBalance() {
 
         LocalDate creationDate = getCreationDate();
-        LocalDate updateDate = getUpdateDate();
+        LocalDate updateDate = getLastModifiedDate();
         LocalDate today = LocalDate.now();
 
         Period periodSinceUpdate = Period.between(updateDate != null ? updateDate : today, today);
