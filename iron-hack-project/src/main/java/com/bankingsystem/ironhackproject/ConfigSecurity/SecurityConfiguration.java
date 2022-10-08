@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 .mvcMatchers(HttpMethod.GET).hasRole("THIRD_PARTY")
                 .mvcMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                 .mvcMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
-                //.mvcMatchers(HttpMethod.PATCH, "/**").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.PATCH, "/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         return http.build();
