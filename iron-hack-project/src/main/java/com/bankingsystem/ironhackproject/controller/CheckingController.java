@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CheckingController {
-
     @Autowired
     CheckingService checkingService;
 
-    @GetMapping("/checking/{accountId}")
+    @GetMapping("/admin/{accountId}")
+    @ResponseStatus(HttpStatus.OK)
     Checking getChecking(@PathVariable(value="accountId") Integer accountId) {
         return checkingService.findCheckingByAccountId(accountId);
     }
+
+
 
 }

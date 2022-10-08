@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface CheckingRepository extends JpaRepository<Checking, Integer> {
-    Checking findByAccountId(Integer accountId);
-    Optional<Checking> findById(Integer accountId);
+    Optional<Checking> findByAccountId(Integer accountId);
 }
+
+

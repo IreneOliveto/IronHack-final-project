@@ -2,6 +2,7 @@ package com.bankingsystem.ironhackproject.model.accounts;
 
 import com.bankingsystem.ironhackproject.ConfigSecurity.model.User;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
+import com.bankingsystem.ironhackproject.model.utils.Auditable;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.Nullable;
@@ -12,11 +13,11 @@ import java.math.BigDecimal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Account {
+public abstract class Account extends Auditable<String> {
     @Id
-    @Valid
     @GeneratedValue(strategy = GenerationType.TABLE)
-    protected int accountId;
+    @Valid
+    protected Integer accountId;
     protected Money balance;
     @OneToOne
     protected AccountHolder accountHolder;
@@ -28,7 +29,7 @@ public abstract class Account {
 
     @OneToOne
     @Valid
-    private User user;
+    protected User user;
 
     public Account(){}
 
@@ -39,11 +40,11 @@ public abstract class Account {
         setPenaltyFee(penaltyFee);
     }
 
-    public int getAccountId() {
+    public @Valid Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(@Valid Integer accountId) {
         this.accountId = accountId;
     }
 

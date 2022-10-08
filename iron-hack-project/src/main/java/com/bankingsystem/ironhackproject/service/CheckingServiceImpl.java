@@ -13,7 +13,7 @@ public class CheckingServiceImpl implements CheckingService{
 
     @Override
     public Checking findCheckingByAccountId(Integer accountId) {
-        return checkingRepository.findById(accountId).get();
+        return checkingRepository.findByAccountId(accountId).orElse(null);
     }
 
 }
