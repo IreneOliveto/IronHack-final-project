@@ -1,4 +1,4 @@
-package com.bankingsystem.ironhackproject.ConfigSecurity.model;
+package com.bankingsystem.ironhackproject.ConfigSecurity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

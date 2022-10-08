@@ -1,8 +1,5 @@
-package com.bankingsystem.ironhackproject.ConfigSecurity.service;
+package com.bankingsystem.ironhackproject.ConfigSecurity;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.CustomUserDetails;
-import com.bankingsystem.ironhackproject.ConfigSecurity.model.User;
-import com.bankingsystem.ironhackproject.ConfigSecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user =  userRepository.findByUsername(username);
 
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("User " + username + " not found");
         }
 

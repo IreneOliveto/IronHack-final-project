@@ -1,6 +1,5 @@
 package com.bankingsystem.ironhackproject.ConfigSecurity;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,10 +39,10 @@ public class SecurityConfiguration {
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, "/user/{accountId}").hasRole("ACCOUNT_HOLDER")
                 .mvcMatchers(HttpMethod.GET).hasRole("THIRD_PARTY")
-                .mvcMatchers(HttpMethod.GET, "/admin/").hasRole("ADMIN")
-                .mvcMatchers(HttpMethod.POST, "/admin/").hasRole("ADMIN")
-                .mvcMatchers(HttpMethod.PATCH, "/admin/").hasRole("ADMIN")
-                .anyRequest().permitAll();
+                .mvcMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
+                //.mvcMatchers(HttpMethod.PATCH, "/**").hasRole("ADMIN")
+                .anyRequest().authenticated();
 
         return http.build();
     }

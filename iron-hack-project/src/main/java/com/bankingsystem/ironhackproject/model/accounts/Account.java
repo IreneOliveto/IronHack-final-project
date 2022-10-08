@@ -1,8 +1,7 @@
 package com.bankingsystem.ironhackproject.model.accounts;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.model.User;
+import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
-import com.bankingsystem.ironhackproject.model.utils.Auditable;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.Nullable;
@@ -13,13 +12,14 @@ import java.math.BigDecimal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Account extends Auditable<String> {
+public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Valid
     protected Integer accountId;
     protected Money balance;
     @OneToOne
+    @JsonIgnore
     protected AccountHolder accountHolder;
     protected BigDecimal penaltyFee;
 
@@ -71,5 +71,30 @@ public abstract class Account extends Auditable<String> {
 
     public void setPenaltyFee(BigDecimal penaltyFee) {
         this.penaltyFee = BigDecimal.valueOf(40);
+    }
+
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
+    }
+
+    @Nullable
+    public AccountHolder getSecondaryAccountHolder() {
+        return secondaryAccountHolder;
+    }
+
+    public void setSecondaryAccountHolder(@Nullable AccountHolder secondaryAccountHolder) {
+        this.secondaryAccountHolder = secondaryAccountHolder;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    @JsonIgnore
+    public void setUser(User user) {
+        this.user = user;
     }
 }

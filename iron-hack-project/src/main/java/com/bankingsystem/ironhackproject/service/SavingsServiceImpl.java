@@ -1,5 +1,6 @@
 package com.bankingsystem.ironhackproject.service;
 
+import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.Savings;
 import com.bankingsystem.ironhackproject.repository.SavingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,13 @@ public class SavingsServiceImpl implements SavingsService {
     @Override
     public Savings findSavingsByAccountId(Integer accountId) {
         return savingsRepository.findByAccountId(accountId).orElse(null);
+    }
+
+    @Override
+    public Savings updateBalance(Integer accountId, AccountBalanceUpdateDto balance) {
+        Savings storedBalance = findSavingsByAccountId(accountId);
+        storedBalance.setBalance(balance.getBalance());
+        return savingsRepository.save(storedBalance);
     }
 }
 

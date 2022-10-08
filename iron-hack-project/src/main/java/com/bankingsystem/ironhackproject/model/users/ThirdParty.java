@@ -1,6 +1,6 @@
 package com.bankingsystem.ironhackproject.model.users;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.model.User;
+import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 
 import javax.persistence.Entity;
 

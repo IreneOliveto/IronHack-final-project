@@ -20,12 +20,9 @@ public class Checking extends Account {
     protected BigDecimal minimumBalance;
     protected BigDecimal monthlyMaintenanceFee;
     @Valid
-    @CreatedDate
     protected LocalDate creationDate;
     @Nullable
-    @LastModifiedDate
     private LocalDate lastModifiedDate;
-
     @Enumerated(EnumType.STRING)
     protected Status status;
 
@@ -97,34 +94,25 @@ public class Checking extends Account {
 
     @Override
     public Money getBalance() {
-
-        LocalDate creationDate = getCreationDate();
-        LocalDate updateDate = getLastModifiedDate();
-        LocalDate today = LocalDate.now();
-
-        Period periodSinceUpdate = Period.between(updateDate != null ? updateDate : today, today);
-        Period periodSinceUpdateOrCreation = Period.between(updateDate == null ? creationDate : updateDate, today);
+        Period periodSinceUpdateOrCreation = Period.between(getLastModifiedDate() == null ?  getCreationDate() : getLastModifiedDate(), LocalDate.now());
 
         int monthsPerYear = periodSinceUpdateOrCreation.getYears() * 12;
         int monthsThisYear = periodSinceUpdateOrCreation.getMonths();
         int checkingActiveMonths = monthsThisYear + monthsPerYear;
 
-        BigDecimal checkingAmount = balance.getAmount();
-        BigDecimal checkingMaintenanceFee = getMonthlyMaintenanceFee();
-
-        if (checkingAmount.compareTo(minimumBalance) > 0) {
+        if (balance.getAmount().compareTo(minimumBalance) > 0) {
             if (checkingActiveMonths > 1) {
                 BigDecimal totalMaintenanceFee = (BigDecimal.valueOf(checkingActiveMonths)
-                        .multiply(checkingMaintenanceFee));
-                BigDecimal newBalance = checkingAmount.subtract(totalMaintenanceFee);
+                        .multiply(getMonthlyMaintenanceFee()));
+                BigDecimal newBalance = balance.getAmount().subtract(totalMaintenanceFee);
 
                 balance = new Money(newBalance);
                 return balance;
             }
             return balance;
 
-        } else if (checkingAmount.compareTo(minimumBalance) < 0) {
-            BigDecimal balancePenaltyFeePaid = checkingAmount.subtract(getPenaltyFee());
+        } else if (balance.getAmount().compareTo(minimumBalance) < 0) {
+            BigDecimal balancePenaltyFeePaid = balance.getAmount().subtract(getPenaltyFee());
             balance = new Money(balancePenaltyFeePaid);
             return balance;
         }

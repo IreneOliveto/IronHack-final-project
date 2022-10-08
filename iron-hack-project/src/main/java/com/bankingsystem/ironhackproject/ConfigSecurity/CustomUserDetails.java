@@ -1,7 +1,5 @@
 package com.bankingsystem.ironhackproject.ConfigSecurity;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.model.Role;
-import com.bankingsystem.ironhackproject.ConfigSecurity.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

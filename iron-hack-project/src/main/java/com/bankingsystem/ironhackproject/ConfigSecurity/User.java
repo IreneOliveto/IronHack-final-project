@@ -1,10 +1,8 @@
-package com.bankingsystem.ironhackproject.ConfigSecurity.model;
+package com.bankingsystem.ironhackproject.ConfigSecurity;
 
-import com.bankingsystem.ironhackproject.model.accounts.Account;
-import com.bankingsystem.ironhackproject.model.users.AccountHolder;
+import com.bankingsystem.ironhackproject.ConfigSecurity.Role;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.util.Set;
 
 @Entity

@@ -1,16 +1,14 @@
 package com.bankingsystem.ironhackproject.model.users;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.model.User;
+import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 import com.bankingsystem.ironhackproject.model.accounts.Account;
 import com.bankingsystem.ironhackproject.model.utils.Address;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import java.util.Date;
 
 @Entity
-@Table(name="account_holder")
 public class AccountHolder extends User {
     private String name;
     private Date dateOfBirth;
@@ -48,7 +46,7 @@ public class AccountHolder extends User {
         return primaryAddress;
     }
 
-    public void setPrimaryAddress(Address address) {
+    public void setPrimaryAddress(Address primaryAddress) {
         this.primaryAddress = primaryAddress;
     }
 
