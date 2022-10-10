@@ -1,7 +1,5 @@
 package com.bankingsystem.ironhackproject.ConfigSecurity;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.Role;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,7 +8,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue
-    private Integer id;
+    protected Integer userId;
 
     private String username;
 
@@ -19,8 +17,8 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<Role> roles;
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
     public String getUsername() {

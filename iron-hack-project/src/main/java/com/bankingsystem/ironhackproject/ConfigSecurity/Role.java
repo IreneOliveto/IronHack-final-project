@@ -9,15 +9,15 @@ import javax.persistence.ManyToOne;
 public class Role {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer roleId;
 
     private String name;
 
     @ManyToOne
     private User user;
 
-    public Integer getId() {
-        return id;
+    public Integer getRoleId() {
+        return roleId;
     }
 
     public String getName() {

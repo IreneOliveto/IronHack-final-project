@@ -3,7 +3,7 @@ package com.bankingsystem.ironhackproject.controller;
 import com.bankingsystem.ironhackproject.model.accounts.Checking;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
-import com.bankingsystem.ironhackproject.repository.CheckingRepository;
+import com.bankingsystem.ironhackproject.repository.accounts_repository.CheckingRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import javax.swing.tree.ExpandVetoException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -52,7 +46,7 @@ class CheckingControllerTest {
 
     @Test
     void getCheckingBalanceByAccountId() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/checking-balance/1"))
+        MvcResult mvcResult = mockMvc.perform(get("/checking/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
