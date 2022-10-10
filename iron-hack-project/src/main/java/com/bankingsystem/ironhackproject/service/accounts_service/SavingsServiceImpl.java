@@ -1,8 +1,8 @@
-package com.bankingsystem.ironhackproject.service;
+package com.bankingsystem.ironhackproject.service.accounts_service;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.Savings;
-import com.bankingsystem.ironhackproject.repository.SavingsRepository;
+import com.bankingsystem.ironhackproject.repository.accounts_repository.SavingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +18,9 @@ public class SavingsServiceImpl implements SavingsService {
     }
 
     @Override
-    public Savings updateBalance(Integer accountId, AccountBalanceUpdateDto balance) {
+    public Savings updateSavingsBalance(Integer accountId, AccountBalanceUpdateDto savingsBalance) {
         Savings storedBalance = findSavingsByAccountId(accountId);
-        storedBalance.setBalance(balance.getBalance());
+        storedBalance.setBalance(savingsBalance.getBalance());
         return savingsRepository.save(storedBalance);
     }
 }

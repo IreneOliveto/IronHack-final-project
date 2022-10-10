@@ -1,4 +1,4 @@
-package com.bankingsystem.ironhackproject.service;
+package com.bankingsystem.ironhackproject.service.accounts_service;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.Savings;
@@ -6,5 +6,5 @@ import com.bankingsystem.ironhackproject.model.accounts.Savings;
 public interface SavingsService {
     Savings findSavingsByAccountId(Integer accountId);
 
-    Savings updateBalance(Integer accountId, AccountBalanceUpdateDto balance);
+    Savings updateSavingsBalance(Integer accountId, AccountBalanceUpdateDto balance);
 }

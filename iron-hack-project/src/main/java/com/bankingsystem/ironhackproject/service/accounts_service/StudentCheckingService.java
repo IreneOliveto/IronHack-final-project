@@ -1,4 +1,4 @@
-package com.bankingsystem.ironhackproject.service;
+package com.bankingsystem.ironhackproject.service.accounts_service;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.StudentChecking;
@@ -6,6 +6,6 @@ import com.bankingsystem.ironhackproject.model.accounts.StudentChecking;
 public interface StudentCheckingService {
     StudentChecking findStudentCheckingByAccountId(Integer accountId);
 
-    StudentChecking updateBalance(Integer accountId, AccountBalanceUpdateDto balance);
+    StudentChecking updateStudentBalance(Integer accountId, AccountBalanceUpdateDto balance);
 }
 

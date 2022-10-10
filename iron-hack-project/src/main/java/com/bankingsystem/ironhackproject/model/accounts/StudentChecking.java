@@ -10,14 +10,19 @@ import java.time.LocalDate;
 
 @Entity
 public class StudentChecking extends Checking{
-
     public StudentChecking(){super();
+    }
+
+    // Constructors
+    public StudentChecking(int accountId, Money balance, AccountHolder accountHolder) {
+        super(accountId, balance, accountHolder);
     }
 
     public StudentChecking(int accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, int secretKey, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, LocalDate creationDate, Status status) {
         super(accountId, balance, accountHolder, penaltyFee, secretKey, minimumBalance, monthlyMaintenanceFee, creationDate, status);
     }
 
+    // Getters & Setters
     @Override
     public void setMonthlyMaintenanceFee(BigDecimal monthlyMaintenanceFee) {
         this.monthlyMaintenanceFee = BigDecimal.ZERO;

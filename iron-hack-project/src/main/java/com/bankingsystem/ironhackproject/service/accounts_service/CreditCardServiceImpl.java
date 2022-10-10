@@ -1,8 +1,8 @@
-package com.bankingsystem.ironhackproject.service;
+package com.bankingsystem.ironhackproject.service.accounts_service;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.CreditCard;
-import com.bankingsystem.ironhackproject.repository.CreditCardRepository;
+import com.bankingsystem.ironhackproject.repository.accounts_repository.CreditCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class CreditCardServiceImpl implements CreditCardService{
     }
 
     @Override
-    public CreditCard updateBalance(Integer accountId, AccountBalanceUpdateDto balance) {
+    public CreditCard updateCreditCardBalance(Integer accountId, AccountBalanceUpdateDto balance) {
         CreditCard storedBalance = findCreditCardByAccountId(accountId);
         storedBalance.setBalance(balance.getBalance());
         return creditCardRepository.save(storedBalance);

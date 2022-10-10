@@ -1,8 +1,8 @@
-package com.bankingsystem.ironhackproject.controller;
+package com.bankingsystem.ironhackproject.controller.accounts_controller;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.CreditCard;
-import com.bankingsystem.ironhackproject.service.CreditCardService;
+import com.bankingsystem.ironhackproject.service.accounts_service.CreditCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,6 @@ public class CreditCardController {
     @PatchMapping("/credit-card/{accountId}/balance")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CreditCard updateCreditCardBalance(@PathVariable(value="accountId")Integer accountId, @RequestBody AccountBalanceUpdateDto balance) {
-        return creditCardService.updateBalance(accountId,balance);
+        return creditCardService.updateCreditCardBalance(accountId,balance);
     }
 }

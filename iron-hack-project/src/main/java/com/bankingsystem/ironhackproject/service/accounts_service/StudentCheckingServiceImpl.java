@@ -1,8 +1,8 @@
-package com.bankingsystem.ironhackproject.service;
+package com.bankingsystem.ironhackproject.service.accounts_service;
 
 import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.StudentChecking;
-import com.bankingsystem.ironhackproject.repository.StudentCheckingRepository;
+import com.bankingsystem.ironhackproject.repository.accounts_repository.StudentCheckingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class StudentCheckingServiceImpl implements StudentCheckingService{
     }
 
     @Override
-    public StudentChecking updateBalance(Integer accountId, AccountBalanceUpdateDto balance) {
+    public StudentChecking updateStudentBalance(Integer accountId, AccountBalanceUpdateDto balance) {
         StudentChecking storedBalance = findStudentCheckingByAccountId(accountId);
         storedBalance.setBalance(balance.getBalance());
         return studentCheckingRepository.save(storedBalance);

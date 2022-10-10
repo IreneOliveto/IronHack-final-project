@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -22,7 +23,6 @@ public abstract class Account {
     @JsonIgnore
     protected AccountHolder accountHolder;
     protected BigDecimal penaltyFee;
-
     @Nullable
     @ManyToOne
     protected AccountHolder secondaryAccountHolder;
@@ -30,6 +30,10 @@ public abstract class Account {
     @OneToOne
     @Valid
     protected User user;
+    @Valid
+    protected LocalDate creationDate;
+    @Nullable
+    private LocalDate lastModifiedDate;
 
     public Account(){}
 
@@ -40,12 +44,50 @@ public abstract class Account {
         setPenaltyFee(penaltyFee);
     }
 
+    public Account(Integer accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, @Nullable AccountHolder secondaryAccountHolder, User user, LocalDate creationDate, @Nullable LocalDate lastModifiedDate) {
+        setAccountId(accountId);
+        setBalance(balance);
+        setAccountHolder(accountHolder);
+        setPenaltyFee(penaltyFee);
+        setSecondaryAccountHolder(secondaryAccountHolder);
+        setUser(user);
+        setCreationDate(creationDate);
+        setLastModifiedDate(lastModifiedDate);
+    }
+
+    public void transferMoney(Account accountId, Account accountReceiverId, Money balance, Money amountToSend) {
+        if (balance.getAmount().compareTo(amountToSend.getAmount()) > 0) {
+            throw new IllegalArgumentException("The amount to send cannot be greater than the account's current balance.");
+        } else if (accountId == accountReceiverId) {
+            throw new IllegalArgumentException("The amount cannot be sent to the current balance.");
+        }
+        accountId.setBalance(new Money(balance.getAmount().subtract(amountToSend.getAmount())));
+        accountReceiverId.setBalance(new Money(balance.getAmount().add(amountToSend.getAmount())));
+    }
+
     public @Valid Integer getAccountId() {
         return accountId;
     }
 
     public void setAccountId(@Valid Integer accountId) {
         this.accountId = accountId;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    @Nullable
+    public LocalDate getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(@Nullable LocalDate lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Money getBalance() {

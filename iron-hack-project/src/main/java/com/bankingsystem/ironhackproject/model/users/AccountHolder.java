@@ -9,8 +9,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AccountHolder extends User {
-    private String name;
+    protected String name;
     private Date dateOfBirth;
     @Nullable
     private String mailingAddress;
@@ -25,6 +26,7 @@ public class AccountHolder extends User {
         setName(name);
     }
 
+    // Constructor
     public AccountHolder(String name, Date dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
         this.dateOfBirth = dateOfBirth;
         setName(name);
@@ -34,6 +36,7 @@ public class AccountHolder extends User {
         this.account = account;
     }
 
+    // Getters & Setters
     public String getName() {
         return name;
     }

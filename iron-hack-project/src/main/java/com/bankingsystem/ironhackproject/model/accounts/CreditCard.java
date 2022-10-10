@@ -1,5 +1,6 @@
 package com.bankingsystem.ironhackproject.model.accounts;
 
+import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import org.springframework.lang.Nullable;
@@ -15,10 +16,8 @@ public class CreditCard extends Account {
 
     private BigDecimal creditLimit;
     private BigDecimal interestRate;
-    protected LocalDate creationDate;
-    @Nullable
-    private LocalDate lastModifiedDate;
 
+    //Constructors
     public CreditCard() {
         super();
     }
@@ -30,11 +29,14 @@ public class CreditCard extends Account {
         setCreationDate(creationDate);
     }
 
-    public BigDecimal getCreditLimit() {
-        return creditLimit;
+    public CreditCard(Integer accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, AccountHolder secondaryAccountHolder, User user, LocalDate creationDate, LocalDate lastModifiedDate, BigDecimal creditLimit, BigDecimal interestRate) {
+        super(accountId, balance, accountHolder, penaltyFee, secondaryAccountHolder, user, creationDate, lastModifiedDate);
+        setCreditLimit(creditLimit);
+        setInterestRate(interestRate);
     }
 
-    public void setCreditLimit(BigDecimal creditLimit) {
+    //Methods
+    private void applyCreditLimit(BigDecimal creditLimit) {
         if(creditLimit == null) {
             this.creditLimit = BigDecimal.valueOf(100);
         } else {
@@ -46,11 +48,7 @@ public class CreditCard extends Account {
         }
     }
 
-    public BigDecimal getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(BigDecimal interestRate) {
+    private void applyInterestRate(BigDecimal interestRate) {
         if(interestRate == null) {
             this.interestRate = BigDecimal.valueOf(0.2);
         } else {
@@ -62,64 +60,46 @@ public class CreditCard extends Account {
         }
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
+    private void applyInterestRate() {
+        Period periodSinceUpdateOrCreation = Period.between(getLastModifiedDate() == null ?  getCreationDate() : getLastModifiedDate(), LocalDate.now());
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    @Nullable
-    public LocalDate getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(@Nullable LocalDate updateDate) {
-        this.lastModifiedDate = updateDate;
-    }
-
-    @Override
-    public Money getBalance() {
-        LocalDate updateDate = getLastModifiedDate();
-
-        Period periodSinceUpdate = Period.between(getLastModifiedDate() != null ? getLastModifiedDate() : LocalDate.now(), LocalDate.now());
-        Period periodSinceCreation = Period.between(getCreationDate(), LocalDate.now());
-
-        int activeMonthsSinceUpdate = (int) periodSinceUpdate.toTotalMonths();
-        int activeMonthsSinceCreation = (int) periodSinceCreation.toTotalMonths();
+        int monthsPerYear = periodSinceUpdateOrCreation.getYears() * 12;
+        int monthsThisYear = periodSinceUpdateOrCreation.getMonths();
+        int CardActiveMonths = monthsThisYear + monthsPerYear;
 
         BigDecimal annualInterestRateDividedPerMonth = getInterestRate().divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_EVEN);
         BigDecimal interestRatePerMonth = balance.getAmount().multiply(annualInterestRateDividedPerMonth);
 
-        if(updateDate != null && periodSinceUpdate.getMonths() > 1)  {
-
-            for (int i = 1; i <= activeMonthsSinceUpdate; i++) {
-                BigDecimal newBalance = balance.getAmount().add(interestRatePerMonth);
-                balance = new Money(newBalance);
-                this.setLastModifiedDate(LocalDate.now());
-                i++;
-            }
-        } else if (updateDate == null && periodSinceCreation.getMonths() > 1){
-            for (int i = 1; i <= activeMonthsSinceCreation; i++) {
+        if(CardActiveMonths > 1) {
+            for (int i = 1; i <= CardActiveMonths; i++) {
                 BigDecimal newBalance = balance.getAmount().add(interestRatePerMonth);
                 balance = new Money(newBalance);
                 this.setLastModifiedDate(LocalDate.now());
                 i++;
             }
         }
+    }
 
+    // Getters & Setters
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(BigDecimal creditLimit) {
+        applyCreditLimit(creditLimit);
+    }
+
+    public BigDecimal getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(BigDecimal interestRate) {
+        applyInterestRate(interestRate);
+    }
+
+    @Override
+    public Money getBalance() {
+        applyInterestRate();
         return balance;
     }
 }
-
-        /* BigDecimal monthlyInterestRate = (
-                creditCardBalance
-                        .multiply(interestRate).divide(BigDecimal.valueOf(12))
-                        .multiply(BigDecimal.valueOf(creditCardActiveMonths)));
-        Money updatedBalanceMonthlyInterestRate = new Money(balance.increaseAmount(monthlyInterestRate),
-                Currency.getInstance("EUR"));
-
-        if(creditCardActiveMonths > 1) {
-            return updatedBalanceMonthlyInterestRate;
-        } */
