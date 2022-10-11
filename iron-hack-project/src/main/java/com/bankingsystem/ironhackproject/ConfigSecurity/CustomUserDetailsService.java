@@ -26,10 +26,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return userDetails;
     }
-
-    public boolean checkUserId(Authentication authentication, Integer userId) {
-        return true;
-    }
-
-
 }

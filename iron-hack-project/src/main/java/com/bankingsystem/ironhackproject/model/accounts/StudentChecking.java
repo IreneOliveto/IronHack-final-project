@@ -14,10 +14,6 @@ public class StudentChecking extends Checking{
     }
 
     // Constructors
-    public StudentChecking(int accountId, Money balance, AccountHolder accountHolder) {
-        super(accountId, balance, accountHolder);
-    }
-
     public StudentChecking(int accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, int secretKey, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, LocalDate creationDate, Status status) {
         super(accountId, balance, accountHolder, penaltyFee, secretKey, minimumBalance, monthlyMaintenanceFee, creationDate, status);
     }

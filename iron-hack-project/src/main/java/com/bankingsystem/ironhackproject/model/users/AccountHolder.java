@@ -1,15 +1,17 @@
 package com.bankingsystem.ironhackproject.model.users;
 
+import com.bankingsystem.ironhackproject.ConfigSecurity.Role;
 import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 import com.bankingsystem.ironhackproject.model.accounts.Account;
 import com.bankingsystem.ironhackproject.model.utils.Address;
+import com.bankingsystem.ironhackproject.model.utils.Money;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AccountHolder extends User {
     protected String name;
     private Date dateOfBirth;
@@ -20,20 +22,25 @@ public class AccountHolder extends User {
     @OneToOne
     private Account account;
 
-    public AccountHolder(){}
-
-    public AccountHolder(String name){
-        setName(name);
-    }
-
     // Constructor
-    public AccountHolder(String name, Date dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
-        this.dateOfBirth = dateOfBirth;
+    public AccountHolder(){}
+    public AccountHolder(Integer userId, String username, String password, Set<Role> roles, String name, Date dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
+        super(userId, username, password, roles);
+        setDateOfBirth(dateOfBirth);
         setName(name);
         setPrimaryAddress(primaryAddress);
         setDateOfBirth(dateOfBirth);
         setMailingAddress(mailingAddress);
-        this.account = account;
+        setAccount(account);
+    }
+
+    public AccountHolder(String name, Date dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
+        setDateOfBirth(dateOfBirth);
+        setName(name);
+        setPrimaryAddress(primaryAddress);
+        setDateOfBirth(dateOfBirth);
+        setMailingAddress(mailingAddress);
+        setAccount(account);
     }
 
     // Getters & Setters
@@ -77,4 +84,5 @@ public class AccountHolder extends User {
     public void setAccount(Account account) {
         this.account = account;
     }
+
 }

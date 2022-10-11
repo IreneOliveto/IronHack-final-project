@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                 .mvcMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                 .mvcMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
                 //.mvcMatchers(HttpMethod.PATCH, "/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         return http.build();
     }

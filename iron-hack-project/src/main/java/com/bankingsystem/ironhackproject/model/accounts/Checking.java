@@ -24,10 +24,6 @@ public class Checking extends Account {
         super();
     }
 
-    public Checking(int accountId, Money balance, AccountHolder accountHolder) {
-        super();
-    }
-
     public Checking(int accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, int secretKey, BigDecimal minimumBalance, BigDecimal monthlyMaintenanceFee, LocalDate creationDate, Status status) {
         super(accountId, balance, accountHolder, penaltyFee);
         setSecretKey(secretKey);
@@ -47,27 +43,24 @@ public class Checking extends Account {
     }
 
     // Method
-    private boolean applyMaintenanceFeeAndPenaltyFee() {
+    private void applyPenaltyFee() {
+        if (balance.getAmount().compareTo(minimumBalance) < 0) {
+            BigDecimal balancePenaltyFeePaid = balance.getAmount().subtract(getPenaltyFee());
+            balance = new Money(balancePenaltyFeePaid);
+        }
+    }
+
+    private void applyMaintenanceFee() {
         Period periodSinceUpdateOrCreation = Period.between(getLastModifiedDate() == null ?  getCreationDate() : getLastModifiedDate(), LocalDate.now());
         int checkingActiveMonths = periodSinceUpdateOrCreation.getMonths() + periodSinceUpdateOrCreation.getYears() * 12;
 
-        if (balance.getAmount().compareTo(minimumBalance) > 0) {
-            if (checkingActiveMonths > 1) {
-                BigDecimal totalMaintenanceFee = (BigDecimal.valueOf(checkingActiveMonths)
-                        .multiply(getMonthlyMaintenanceFee()));
-                BigDecimal newBalance = balance.getAmount().subtract(totalMaintenanceFee);
+        if (checkingActiveMonths > 1) {
+            BigDecimal totalMaintenanceFee = (BigDecimal.valueOf(checkingActiveMonths)
+                    .multiply(getMonthlyMaintenanceFee()));
+            BigDecimal newBalance = balance.getAmount().subtract(totalMaintenanceFee);
 
-                balance = new Money(newBalance);
-                return true;
-            }
-            return true;
-
-        } else if (balance.getAmount().compareTo(minimumBalance) < 0) {
-            BigDecimal balancePenaltyFeePaid = balance.getAmount().subtract(getPenaltyFee());
-            balance = new Money(balancePenaltyFeePaid);
-            return true;
+            balance = new Money(newBalance);
         }
-        return false;
     }
 
     // Getters & Setters
@@ -105,7 +98,8 @@ public class Checking extends Account {
 
     @Override
     public Money getBalance() {
-        applyMaintenanceFeeAndPenaltyFee();
+        applyMaintenanceFee();
+        applyPenaltyFee();
         return balance;
     }
 

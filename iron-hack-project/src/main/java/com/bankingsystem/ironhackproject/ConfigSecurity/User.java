@@ -17,6 +17,16 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<Role> roles;
 
+    //Constructors
+    public User() {}
+    public User(Integer userId, String username, String password, Set<Role> roles) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    //Getters & Setters
     public Integer getUserId() {
         return userId;
     }

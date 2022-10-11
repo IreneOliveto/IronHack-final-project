@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,7 +39,7 @@ class StudentCheckingTest {
                 CREATION_DATE,
                 STATUS
         );
-        assertEquals(null, studentChecking.getMinimumBalance());
+        assertNull(studentChecking.getMinimumBalance());
         assertEquals(BigDecimal.valueOf(0), studentChecking.getMonthlyMaintenanceFee());
     }
 

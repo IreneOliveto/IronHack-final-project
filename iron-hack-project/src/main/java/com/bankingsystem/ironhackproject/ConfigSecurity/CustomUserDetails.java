@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class CustomUserDetails implements UserDetails {
 
-    private User user;
+    public User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -55,4 +55,5 @@ public class CustomUserDetails implements UserDetails {
     public void setUser(User user) {
         this.user = user;
     }
+
 }

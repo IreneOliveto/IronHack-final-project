@@ -21,7 +21,6 @@ class CreditCardTest {
     final static Money EXPECTED_BALANCE = new Money(BigDecimal.valueOf(672));
     final static AccountHolder ACCOUNT_HOLDER = new AccountHolder();
     final static BigDecimal PENALTY_FEE = BigDecimal.valueOf(20);
-
     final static LocalDate CREATION_DATE = LocalDate.of(2021, 10, 10);
     final static BigDecimal DEFAULT_CREDIT_LIMIT = BigDecimal.valueOf(100);
     final static BigDecimal VALID_CREDIT_LIMIT = BigDecimal.valueOf(100000);

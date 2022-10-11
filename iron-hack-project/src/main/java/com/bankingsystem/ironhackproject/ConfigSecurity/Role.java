@@ -1,11 +1,9 @@
 package com.bankingsystem.ironhackproject.ConfigSecurity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Role {
     @Id
     @GeneratedValue
@@ -15,6 +13,13 @@ public class Role {
 
     @ManyToOne
     private User user;
+
+    public Role() {}
+    public Role(Integer roleId, String name, User user) {
+        this.roleId = roleId;
+        this.name = name;
+        this.user = user;
+    }
 
     public Integer getRoleId() {
         return roleId;

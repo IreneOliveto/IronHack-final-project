@@ -8,8 +8,10 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -19,18 +21,17 @@ public abstract class Account {
     @Valid
     protected Integer accountId;
     protected Money balance;
-    @OneToOne
+
     @JsonIgnore
+    @OneToOne
     protected AccountHolder accountHolder;
     protected BigDecimal penaltyFee;
     @Nullable
     @ManyToOne
     protected AccountHolder secondaryAccountHolder;
 
-    @OneToOne
     @Valid
-    protected User user;
-    @Valid
+    @PastOrPresent
     protected LocalDate creationDate;
     @Nullable
     private LocalDate lastModifiedDate;
@@ -50,19 +51,18 @@ public abstract class Account {
         setAccountHolder(accountHolder);
         setPenaltyFee(penaltyFee);
         setSecondaryAccountHolder(secondaryAccountHolder);
-        setUser(user);
         setCreationDate(creationDate);
         setLastModifiedDate(lastModifiedDate);
     }
 
-    public void transferMoney(Account accountId, Account accountReceiverId, Money balance, Money amountToSend) {
-        if (balance.getAmount().compareTo(amountToSend.getAmount()) > 0) {
+    public void transferMoney(Account accountReceiver, Money amountToSend) {
+        if (balance.getAmount().compareTo(amountToSend.getAmount()) < 0) {
             throw new IllegalArgumentException("The amount to send cannot be greater than the account's current balance.");
-        } else if (accountId == accountReceiverId) {
-            throw new IllegalArgumentException("The amount cannot be sent to the current balance.");
+        } else if (Objects.equals(accountId, accountReceiver.getAccountId())) {
+            throw new IllegalArgumentException("The amount cannot be sent to the same account.");
         }
-        accountId.setBalance(new Money(balance.getAmount().subtract(amountToSend.getAmount())));
-        accountReceiverId.setBalance(new Money(balance.getAmount().add(amountToSend.getAmount())));
+        setBalance(new Money(balance.getAmount().subtract(amountToSend.getAmount())));
+        accountReceiver.setBalance(new Money(balance.getAmount().add(amountToSend.getAmount())));
     }
 
     public @Valid Integer getAccountId() {
@@ -130,13 +130,5 @@ public abstract class Account {
 
     public void setSecondaryAccountHolder(@Nullable AccountHolder secondaryAccountHolder) {
         this.secondaryAccountHolder = secondaryAccountHolder;
-    }
-
-    public User getUser() {
-        return user;
-    }
-    @JsonIgnore
-    public void setUser(User user) {
-        this.user = user;
     }
 }
