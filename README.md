@@ -38,7 +38,7 @@ Open the application in Intellij, and right click on src/test/java directory in 
 * [Get a third-party user](#get-third-party)
 * [Create new Checking Account for the account holder younger than 24](#create-checking)
 * [Increase Checking Account by 100](#increase-checking)
-* [Withdrawal from a third-party acocunt](#withdrawal)
+* [Withdrawal from a third-party account](#withdrawal)
 * [Get information abount the account holder accounts](#balance)
 * [Do a transaction between two accounts](#transaction)
 
@@ -164,20 +164,20 @@ POST http:/localhost:8080/checking
 
 *Response*
 
-{
-    "accountId": /* new accountId*/,
-    "balance": {
-        "currency": "EUR",
-        "amount": 0
-    },
-    "penaltyFee": 40,
-    "secondaryAccountHolder": null,
-    "creationDate": "2022-10-17",
-    "lastModifiedDate": null,
-    "minimumBalance": 0, /* Student account doesn't have Minimum Balnace*/
-    "monthlyMaintenanceFee": 0, /* Student account doesn't have Maintenance Fee*/
-    "status": "ACTIVE"
-}
+	{
+	    "accountId": /* new accountId*/,
+	    "balance": {
+		"currency": "EUR",
+		"amount": 0
+	    },
+	    "penaltyFee": 40,
+	    "secondaryAccountHolder": null,
+	    "creationDate": "2022-10-17",
+	    "lastModifiedDate": null,
+	    "minimumBalance": 0, /* Student account doesn't have Minimum Balnace*/
+	    "monthlyMaintenanceFee": 0, /* Student account doesn't have Maintenance Fee*/
+	    "status": "ACTIVE"
+	}
 
 #### <a name="#increase-checking">Increase Checking Account by 100</a>
 
@@ -214,6 +214,15 @@ PATCH http:/localhost:8080/checking/3/deposit
 	    "status": "ACTIVE"
 	}
 
+
+#### <a name="#withdrawal">Withdrawal from a third-party acocunt</a>
+
+		USERNAME: third_party
+		PASSWORD: 123
+		
+*Request*
+
+HEADER hashedKey 111
 
 
 
