@@ -20,6 +20,7 @@ Technology / Library / Framework used:
   * Spring Boot JPA
   * Spring Security
   * Postman
+  *MySql
 
 ### Run the application
 
@@ -32,10 +33,10 @@ Open the application in Intellij, and right click on src/test/java directory in 
 
 ## Use Cases
 
-* [Get admin account](#get-admin)
-* [Get account-holder account](#get-account-holder)
-* [Get third-party](#get-third-party)
-* [Create new Checking Account for the account holder younger than 24](#create-checking-account)
+* [Get an admin account](#get-admin)
+* [Get an account-holder account](#get-account-holder)
+* [Get a third-party user](#get-third-party)
+* [Create new Checking Account for the account holder younger than 24](#create-checking)
 * [Increase Checking Account by 100](#increase-checking)
 * [Withdrawal from a third-party acocunt](#withdrawal)
 * [Get information abount the account holder accounts](#balance)
@@ -43,7 +44,7 @@ Open the application in Intellij, and right click on src/test/java directory in 
 
 ## Steps
 
-#### <a name="#get-admin">Get admin account</a>
+#### <a name="#get-admin">Get an admin account</a>
 
 		USERNAME: admin1
 		PASSWORD: admin123
@@ -60,10 +61,13 @@ GET 	/admin/4
             "name": "Josh"
         }
 
-#### <a name="#get-account-holder">Get account-holder account</a>
+#### <a name="#get-account-holder">Get an account-holder account</a>
 Account1 has a Checking Account and a Credit Card
+
 		USERNAME: user1
 		PASSWORD: user123
+		
+*Request*
 
 GET	  http:/localhost:8080/account/1
 
@@ -104,6 +108,10 @@ Account2 has a Savings Account
         USERNAME: user2
         PASSWORD: user456
 
+*Request*
+	
+GET	  http:/localhost:8080/account/2
+
 *Response*
 
         [
@@ -123,6 +131,106 @@ Account2 has a Savings Account
                 "interestRate": null
             }
         ]
+
+#### <a name="#get-third-party">Get a Third-Party user</a>
+
+		USERNAME: admin1
+		PASSWORD: admin123
+		
+*Request*
+
+GET 	http:/localhost:8080/admin/third-party/3
+
+*Response*
+
+	{
+	    "userId": 3,
+	    "username": "third_party",
+	    "name": "third_party",
+	    "hashedKey": 111
+	}
+
+#### <a name="#create-checking">Create new Checking Account for the account holder younger than 24</a>
+
+		USERNAME: admin1
+		PASSWORD: admin123
+
+*Request*
+
+POST http:/localhost:8080/checking
+
+*Body*
+	2
+
+*Response*
+
+{
+    "accountId": /* new accountId*/,
+    "balance": {
+        "currency": "EUR",
+        "amount": 0
+    },
+    "penaltyFee": 40,
+    "secondaryAccountHolder": null,
+    "creationDate": "2022-10-17",
+    "lastModifiedDate": null,
+    "minimumBalance": 0, /* Student account doesn't have Minimum Balnace*/
+    "monthlyMaintenanceFee": 0, /* Student account doesn't have Maintenance Fee*/
+    "status": "ACTIVE"
+}
+
+#### <a name="#increase-checking">Increase Checking Account by 100</a>
+
+		USERNAME: admin1
+		PASSWORD: admin123
+
+*Request*
+
+PATCH http:/localhost:8080/checking/3/deposit
+
+*Body*
+
+		{
+		"balance": {
+			"currency": "EUR",
+			"amount": 100
+		    }
+		}
+
+*Response*
+
+	{
+	    "accountId": 3,
+	    "balance": {
+		"currency": "EUR",
+		"amount": 1840
+	    },
+	    "penaltyFee": 40,
+	    "secondaryAccountHolder": null,
+	    "creationDate": "2021-08-10",
+	    "lastModifiedDate": "2022-10-17",
+	    "minimumBalance": 250,
+	    "monthlyMaintenanceFee": 12,
+	    "status": "ACTIVE"
+	}
+
+
+
+
+
+
+
+
+		
+		
+
+
+
+
+	
+
+	
+
 
 
 
