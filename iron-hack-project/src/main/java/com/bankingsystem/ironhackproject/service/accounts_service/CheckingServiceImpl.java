@@ -16,7 +16,9 @@ public class CheckingServiceImpl implements CheckingService{
 
     @Override
     public Checking findCheckingByAccountId(Integer accountId) {
-        return checkingRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        Checking checkingBalance = checkingRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        checkingBalance.setBalance(checkingBalance.getBalance());
+        return checkingRepository.save(checkingBalance);
     }
 
     @Override

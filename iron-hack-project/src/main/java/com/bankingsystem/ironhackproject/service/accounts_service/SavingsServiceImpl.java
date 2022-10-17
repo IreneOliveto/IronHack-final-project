@@ -16,7 +16,9 @@ public class SavingsServiceImpl implements SavingsService {
 
     @Override
     public Savings findSavingsByAccountId(Integer accountId) {
-        return savingsRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        Savings savingsBalance = savingsRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        savingsBalance.setBalance(savingsBalance.getBalance());
+        return savingsRepository.save(savingsBalance);
     }
 
     @Override

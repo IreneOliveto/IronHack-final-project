@@ -14,7 +14,7 @@ public class StudentCheckingController {
     @Autowired
     StudentCheckingService studentCheckingService;
 
-    @PreAuthorize("#accountId == principal.user.userId")
+    @PreAuthorize("#accountId == principal.user.userId or hasRole('ROLE_ADMIN')")
     @GetMapping("/account/student/{accountId}")
     @ResponseStatus(HttpStatus.OK)
     StudentChecking getStudentChecking(@PathVariable(value="accountId") Integer accountId) {

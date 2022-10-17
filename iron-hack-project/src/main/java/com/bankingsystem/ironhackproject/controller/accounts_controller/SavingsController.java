@@ -13,7 +13,7 @@ public class SavingsController {
     @Autowired
     SavingsService savingsService;
 
-    @PreAuthorize("#accountId == principal.user.userId")
+    @PreAuthorize("#accountId == principal.user.userId or hasRole('ROLE_ADMIN')")
     @GetMapping("/account/savings/{accountId}")
     @ResponseStatus(HttpStatus.OK)
     Savings getSavings(@PathVariable(value="accountId") Integer accountId) {

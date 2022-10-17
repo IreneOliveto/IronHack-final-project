@@ -16,7 +16,9 @@ public class StudentCheckingServiceImpl implements StudentCheckingService{
 
     @Override
     public StudentChecking findStudentCheckingByAccountId(Integer accountId) {
-        return studentCheckingRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        StudentChecking studentBalance = studentCheckingRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        studentBalance.setMinimumBalance(studentBalance.getMinimumBalance());
+        return studentCheckingRepository.save(studentBalance);
     }
 
     @Override

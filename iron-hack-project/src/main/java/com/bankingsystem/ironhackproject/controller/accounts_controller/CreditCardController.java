@@ -15,7 +15,7 @@ public class CreditCardController {
     @Autowired
     CreditCardService creditCardService;
 
-    @PreAuthorize("#accountId == principal.user.userId")
+    @PreAuthorize("#accountId == principal.user.userId or hasRole('ROLE_ADMIN')")
     @GetMapping("/account/credit-card/{accountId}")
     @ResponseStatus(HttpStatus.OK)
     CreditCard getCreditCard(@PathVariable(value="accountId") Integer accountId) {

@@ -73,10 +73,6 @@ public abstract class Account {
         accountReceiver.setBalance(new Money(accountReceiver.getBalance().getAmount().add(amountToSend.getAmount())));
     }
 
-    public void depositMoney(Account accountReceiver, Money amountToSend) {
-        accountReceiver.setBalance(new Money(accountReceiver.getBalance().getAmount().add(amountToSend.getAmount())));
-    }
-
     // Getters & Setters
     public @Valid Integer getAccountId() {
         return accountId;

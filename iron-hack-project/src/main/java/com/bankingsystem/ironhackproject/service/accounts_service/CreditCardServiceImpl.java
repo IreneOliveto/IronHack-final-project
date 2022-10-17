@@ -15,7 +15,9 @@ public class CreditCardServiceImpl implements CreditCardService{
 
     @Override
     public CreditCard findCreditCardByAccountId(Integer accountId) {
-        return creditCardRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        CreditCard creditBalance = creditCardRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        creditBalance.setBalance(creditBalance.getBalance());
+        return creditCardRepository.save(creditBalance);
     }
 
     @Override
