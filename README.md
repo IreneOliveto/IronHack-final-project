@@ -20,7 +20,7 @@ Technology / Library / Framework used:
   * Spring Boot JPA
   * Spring Security
   * Postman
-  *MySql
+  * MySql
 
 ### Run the application
 
