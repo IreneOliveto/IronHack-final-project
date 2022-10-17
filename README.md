@@ -298,27 +298,19 @@ GET	  http:/localhost:8080/account/2
 
 *Request*
 
-{
-  "receiverName": "Jen",
-  "senderAccountId": 2,
-  "receiverAccountId" : 7,
-  "amount": {
-        "currency": "EUR",
-        "amount": 100
-    }
-}
+PATCH	http:/localhost:8080/account/transfer
 
 *Body*
 
-{
-  "receiverName": "Jen",
-  "senderAccountId": 2,
-  "receiverAccountId" : 7,
-  "amount": {
-        "currency": "EUR",
-        "amount": 100
-    }
-}
+	{
+	  "receiverName": "Jen",
+	  "senderAccountId": 2,
+	  "receiverAccountId" : 7,
+	  "amount": {
+		"currency": "EUR",
+		"amount": 100
+	    }
+	}
 
 
 *Response*
