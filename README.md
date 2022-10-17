@@ -62,75 +62,48 @@ GET 	/admin/4
         }
 
 #### <a name="#get-account-holder">Get an account-holder account</a>
-Account1 has a Checking Account and a Credit Card
 
-		USERNAME: user1
-		PASSWORD: user123
-		
+
+		USERNAME: admin1
+		PASSWORD: admin123
+
 *Request*
 
-GET	  http:/localhost:8080/account/1
+GET 	http:/localhost:8080/account-holder/1
 
 *Response*
 
-          [
-              {
-                  "accountId": 1,
-                  "balance": {
-                      "currency": "EUR",
-                      "amount": 5460
-                  },
-                  "penaltyFee": 40,
-                  "secondaryAccountHolder": null,
-                  "creationDate": "2019-01-05",
-                  "lastModifiedDate": "2022-10-17",
-                  "minimumBalance": 250,
-                  "monthlyMaintenanceFee": 12,
-                  "status": "ACTIVE"
-              },
-              {
-                  "accountId": 4,
-                  "balance": {
-                      "currency": "EUR",
-                      "amount": 5050
-                  },
-                  "penaltyFee": 40,
-                  "secondaryAccountHolder": null,
-                  "creationDate": "2022-09-02",
-                  "lastModifiedDate": "2022-10-17",
-                  "creditLimit": 100000,
-                  "interestRate": 0.1
-              }
-          ]
-
-Account2 has a Savings Account
-
-        USERNAME: user2
-        PASSWORD: user456
+{
+    "userId": 1,
+    "username": "user1",
+    "name": "John",
+    "dateOfBirth": "1989-03-14",
+    "mailingAddress": "prueba1@hola.com",
+    "primaryAddress": {
+        "street": "Str",
+        "city": "St Q",
+        "postalCode": 8193,
+        "country": "ESP"
+    }
+}
 
 *Request*
-	
-GET	  http:/localhost:8080/account/2
 
-*Response*
+GET 	http:/localhost:8080/account-holder/2
 
-        [
-            {
-                "accountId": 8,
-                "balance": {
-                    "currency": "EUR",
-                    "amount": 8000
-                },
-                "penaltyFee": 40,
-                "secondaryAccountHolder": null,
-                "creationDate": "2019-01-05",
-                "lastModifiedDate": "2022-01-05",
-                "minimumBalance": 100,
-                "monthlyMaintenanceFee": null,
-                "status": null,
-                "interestRate": null
-            }
-        ]
+{
+    "userId": 2,
+    "username": "user2",
+    "name": "Fran",
+    "dateOfBirth": "1999-08-03",
+    "mailingAddress": "prueba2@hola.com",
+    "primaryAddress": {
+        "street": "Str",
+        "city": "FGS",
+        "postalCode": 9765,
+        "country": "ESP"
+    }
+}
 
 #### <a name="#get-third-party">Get a Third-Party user</a>
 
@@ -228,7 +201,6 @@ PATCH http:/localhost:8080/checking/3/withdrawal
 
 HEADER hashedKey 111
 
-
 *Body*
 
 {
@@ -247,14 +219,111 @@ HEADER hashedKey 111
 	
 #### <a name="#balance">Get information abount the account holder accounts</a>
 
+Account1 has a Checking Account and a Credit Card
+
 		USERNAME: user1
 		PASSWORD: user123
 		
 *Request*
 
-GET	/checking/{accountId}/balance
+GET	  http:/localhost:8080/account/1
+
+*Response*
+
+          [
+              {
+                  "accountId": 1,
+                  "balance": {
+                      "currency": "EUR",
+                      "amount": 5460
+                  },
+                  "penaltyFee": 40,
+                  "secondaryAccountHolder": null,
+                  "creationDate": "2019-01-05",
+                  "lastModifiedDate": "2022-10-17",
+                  "minimumBalance": 250,
+                  "monthlyMaintenanceFee": 12,
+                  "status": "ACTIVE"
+              },
+              {
+                  "accountId": 4,
+                  "balance": {
+                      "currency": "EUR",
+                      "amount": 5050
+                  },
+                  "penaltyFee": 40,
+                  "secondaryAccountHolder": null,
+                  "creationDate": "2022-09-02",
+                  "lastModifiedDate": "2022-10-17",
+                  "creditLimit": 100000,
+                  "interestRate": 0.1
+              }
+          ]
+
+Account2 has a Savings Account
+
+        USERNAME: user2
+        PASSWORD: user456
+
+*Request*
+	
+GET	  http:/localhost:8080/account/2
+
+*Response*
+
+        [
+            {
+                "accountId": 8,
+                "balance": {
+                    "currency": "EUR",
+                    "amount": 8000
+                },
+                "penaltyFee": 40,
+                "secondaryAccountHolder": null,
+                "creationDate": "2019-01-05",
+                "lastModifiedDate": "2022-01-05",
+                "minimumBalance": 100,
+                "monthlyMaintenanceFee": null,
+                "status": null,
+                "interestRate": null
+            }
+        ]
+	
+	
+#### <a name="#transaction">Do a transaction between two accounts</a>
+
+		USERNAME: user1
+		PASSWORD: user123
 
 
+*Request*
+
+{
+  "receiverName": "Jen",
+  "senderAccountId": 2,
+  "receiverAccountId" : 7,
+  "amount": {
+        "currency": "EUR",
+        "amount": 100
+    }
+}
+
+*Body*
+
+{
+  "receiverName": "Jen",
+  "senderAccountId": 2,
+  "receiverAccountId" : 7,
+  "amount": {
+        "currency": "EUR",
+        "amount": 100
+    }
+}
+
+
+*Response*
+
+true
 
 
 
