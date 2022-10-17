@@ -215,14 +215,47 @@ PATCH http:/localhost:8080/checking/3/deposit
 	}
 
 
-#### <a name="#withdrawal">Withdrawal from a third-party acocunt</a>
+#### <a name="#withdrawal">Withdrawal from a third-party account</a>
 
 		USERNAME: third_party
 		PASSWORD: 123
 		
 *Request*
 
+PATCH http:/localhost:8080/checking/3/withdrawal
+
+*Header*
+
 HEADER hashedKey 111
+
+
+*Body*
+
+{
+
+  "receiverAccountId" : 3,
+  "amount": {
+        "currency": "EUR",
+        "amount": 100
+    },
+  "secretKey": 1234
+}
+
+*Response*
+
+	true
+	
+#### <a name="#balance">Get information abount the account holder accounts</a>
+
+		USERNAME: user1
+		PASSWORD: user123
+		
+*Request*
+
+GET	/checking/{accountId}/balance
+
+
+
 
 
 
