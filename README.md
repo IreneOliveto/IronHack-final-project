@@ -73,37 +73,37 @@ GET 	http:/localhost:8080/account-holder/1
 
 *Response*
 
-{
-    "userId": 1,
-    "username": "user1",
-    "name": "John",
-    "dateOfBirth": "1989-03-14",
-    "mailingAddress": "prueba1@hola.com",
-    "primaryAddress": {
-        "street": "Str",
-        "city": "St Q",
-        "postalCode": 8193,
-        "country": "ESP"
-    }
-}
+	{
+	    "userId": 1,
+	    "username": "user1",
+	    "name": "John",
+	    "dateOfBirth": "1989-03-14",
+	    "mailingAddress": "prueba1@hola.com",
+	    "primaryAddress": {
+		"street": "Str",
+		"city": "St Q",
+		"postalCode": 8193,
+		"country": "ESP"
+	    }
+	}
 
 *Request*
 
 GET 	http:/localhost:8080/account-holder/2
 
-{
-    "userId": 2,
-    "username": "user2",
-    "name": "Fran",
-    "dateOfBirth": "1999-08-03",
-    "mailingAddress": "prueba2@hola.com",
-    "primaryAddress": {
-        "street": "Str",
-        "city": "FGS",
-        "postalCode": 9765,
-        "country": "ESP"
-    }
-}
+	{
+	    "userId": 2,
+	    "username": "user2",
+	    "name": "Fran",
+	    "dateOfBirth": "1999-08-03",
+	    "mailingAddress": "prueba2@hola.com",
+	    "primaryAddress": {
+		"street": "Str",
+		"city": "FGS",
+		"postalCode": 9765,
+		"country": "ESP"
+	    }
+	}
 
 #### <a name="#get-third-party">Get a Third-Party user</a>
 
@@ -132,7 +132,7 @@ GET 	http:/localhost:8080/admin/third-party/3
 
 POST http:/localhost:8080/checking
 
-*Body*
+*Request Body*
 	2
 
 *Response*
@@ -161,7 +161,7 @@ POST http:/localhost:8080/checking
 
 PATCH http:/localhost:8080/checking/3/deposit
 
-*Body*
+*Request Body*
 
 		{
 		"balance": {
@@ -201,17 +201,17 @@ PATCH http:/localhost:8080/checking/3/withdrawal
 
 HEADER hashedKey 111
 
-*Body*
+*Request Body*
 
-{
+	{
 
-  "receiverAccountId" : 3,
-  "amount": {
-        "currency": "EUR",
-        "amount": 100
-    },
-  "secretKey": 1234
-}
+	  "receiverAccountId" : 3,
+	  "amount": {
+		"currency": "EUR",
+		"amount": 100
+	    },
+	  "secretKey": 1234
+	}
 
 *Response*
 
@@ -300,7 +300,7 @@ GET	  http:/localhost:8080/account/2
 
 PATCH	http:/localhost:8080/account/transfer
 
-*Body*
+*Request Body*
 
 	{
 	  "receiverName": "Jen",
