@@ -8,12 +8,12 @@ import javax.persistence.Entity;
 @Entity
 public class ThirdParty extends User {
     private String name;
-    private int hashedKey;
+    private Integer hashedKey;
 
     // Constructor
     public ThirdParty() {}
 
-    public ThirdParty(String name, int hashedKey) {
+    public ThirdParty(String name, Integer hashedKey) {
         this.name = name;
         this.hashedKey = hashedKey;
     }
@@ -27,11 +27,11 @@ public class ThirdParty extends User {
         this.name = name;
     }
 
-    public int getHashedKey() {
+    public Integer getHashedKey() {
         return hashedKey;
     }
 
-    public void setHashedKey(int hashedKey) {
+    public void setHashedKey(Integer hashedKey) {
         this.hashedKey = hashedKey;
     }
 }

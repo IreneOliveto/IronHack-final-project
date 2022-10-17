@@ -3,7 +3,6 @@ package com.bankingsystem.ironhackproject.model.accounts;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.bankingsystem.ironhackproject.model.utils.Status;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
@@ -19,8 +18,8 @@ public class Savings extends Checking {
     }
 
     // Constructor
-    public Savings(int accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, int secretKey, BigDecimal monthlyMaintenanceFee, BigDecimal minimumBalance, LocalDate creationDate, Status status, BigDecimal interestRate) {
-        super(accountId, balance, accountHolder, penaltyFee, secretKey, minimumBalance, monthlyMaintenanceFee, creationDate, status);
+    public Savings(int accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, Integer secretKey, BigDecimal monthlyMaintenanceFee, BigDecimal minimumBalance, LocalDate creationDate, Status status, BigDecimal interestRate) {
+        super(accountId, balance, accountHolder, secretKey, minimumBalance, monthlyMaintenanceFee, creationDate, status);
         setInterestRate(interestRate);
         setMinimumBalance(minimumBalance);
     }
@@ -41,15 +40,14 @@ public class Savings extends Checking {
     private void applyInterestRate() {
         Period periodSinceUpdateOrCreation = Period.between(getLastModifiedDate() == null ?  getCreationDate() : getLastModifiedDate(), LocalDate.now());
 
-        if(periodSinceUpdateOrCreation.getYears() > 1) {
-            for (int i = 1; i <= periodSinceUpdateOrCreation.getYears(); i++) {
-                BigDecimal annualInterestRate = balance.getAmount().multiply(getInterestRate());
-                BigDecimal newBalance = balance.getAmount().add(annualInterestRate);
+        for (int i = 1; i <= periodSinceUpdateOrCreation.getYears(); i++) {
+            BigDecimal annualInterestRate = balance.getAmount().multiply(getInterestRate());
+            BigDecimal newBalance = balance.getAmount().add(annualInterestRate);
 
-                balance = new Money(newBalance);
-                this.setLastModifiedDate(LocalDate.now());
-            }
+            balance = new Money(newBalance);
+            this.setLastModifiedDate(LocalDate.now());
         }
+
     }
 
     //Getters & Setters

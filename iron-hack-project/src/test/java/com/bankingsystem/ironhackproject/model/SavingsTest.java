@@ -25,7 +25,6 @@ class SavingsTest {
     final static int SECRET_KEY = 5;
     final static BigDecimal MONTHLY_MAINTENANCE_FEE = BigDecimal.valueOf(10);
     final static BigDecimal MINIMUM_BALANCE = BigDecimal.valueOf(150);
-
     final static BigDecimal INVALID_MINIMUM_BALANCE = BigDecimal.valueOf(10);
     final static LocalDate CREATION_DATE = LocalDate.of(2020, 9, 11);
     final static Status STATUS = Status.ACTIVE;
@@ -47,10 +46,10 @@ class SavingsTest {
                 PENALTY_FEE,
                 SECRET_KEY,
                 MONTHLY_MAINTENANCE_FEE,
-                null,
+                MINIMUM_BALANCE,
                 CREATION_DATE,
                 STATUS,
-                null
+                INTEREST_RATE
         );
         assertEquals(BigDecimal.ZERO, savings.getMonthlyMaintenanceFee());
     }

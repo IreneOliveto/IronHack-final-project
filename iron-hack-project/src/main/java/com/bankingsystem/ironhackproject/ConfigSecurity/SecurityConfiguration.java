@@ -37,16 +37,15 @@ public class SecurityConfiguration {
         http.httpBasic();
         http.csrf().disable();
         http.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/user/{accountId}").hasRole("ACCOUNT_HOLDER")
-                .mvcMatchers(HttpMethod.GET).hasRole("THIRD_PARTY")
-                .mvcMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
-                .mvcMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
-                //.mvcMatchers(HttpMethod.PATCH, "/**").hasRole("ADMIN")
-                .anyRequest().permitAll();
+                .mvcMatchers(HttpMethod.GET, "/account/").hasAnyRole("ADMIN", "USER")
+                .mvcMatchers(HttpMethod.GET, "/account-holder/").hasAnyRole("ADMIN", "USER")
+                .mvcMatchers(HttpMethod.GET, "/admin/").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.PATCH, "/account/transfer").hasAnyRole("ADMIN", "USER")
+                .mvcMatchers(HttpMethod.PATCH, "/account/deposit").hasAnyRole("ADMIN", "THIRD_PARTY")
+                .mvcMatchers(HttpMethod.PATCH, "/").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.POST, "/").hasRole("ADMIN")
+                .anyRequest().authenticated();
 
         return http.build();
     }
-
-
-
 }

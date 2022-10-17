@@ -1,5 +1,7 @@
 package com.bankingsystem.ironhackproject.ConfigSecurity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,11 +11,11 @@ public class User {
     @Id
     @GeneratedValue
     protected Integer userId;
-
     private String username;
-
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<Role> roles;
 

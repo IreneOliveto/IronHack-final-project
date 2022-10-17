@@ -23,11 +23,12 @@ class StudentCheckingTest {
     final static int SECRET_KEY = 5;
     final static BigDecimal MONTHLY_MAINTENANCE_FEE = BigDecimal.valueOf(100);
     final static BigDecimal MINIMUM_BALANCE = BigDecimal.valueOf(100);
+    final static BigDecimal ZERO = BigDecimal.ZERO;
     final static LocalDate CREATION_DATE = LocalDate.of(2019, 9, 11);
     final static Status STATUS = Status.ACTIVE;
 
     @Test
-    void StudentChecking_shouldNotHaveMaintenanceFeeAndMinimumBalance() {
+    void StudentChecking_shouldNotHaveMaintenance() {
         StudentChecking studentChecking = new StudentChecking(
                 ACCOUNT_ID,
                 SIX_HUNDRED_EUROS,
@@ -35,12 +36,27 @@ class StudentCheckingTest {
                 PENALTY_FEE,
                 SECRET_KEY,
                 MONTHLY_MAINTENANCE_FEE,
+                ZERO,
+                CREATION_DATE,
+                STATUS
+        );
+        assertEquals(BigDecimal.valueOf(0), studentChecking.getMonthlyMaintenanceFee());
+    }
+
+    @Test
+    void StudentChecking_shouldNotHaveMinimumBalance() {
+        StudentChecking studentChecking = new StudentChecking(
+                ACCOUNT_ID,
+                SIX_HUNDRED_EUROS,
+                ACCOUNT_HOLDER,
+                PENALTY_FEE,
+                SECRET_KEY,
+                ZERO,
                 MINIMUM_BALANCE,
                 CREATION_DATE,
                 STATUS
         );
-        assertNull(studentChecking.getMinimumBalance());
-        assertEquals(BigDecimal.valueOf(0), studentChecking.getMonthlyMaintenanceFee());
+        assertEquals(BigDecimal.valueOf(0), studentChecking.getMinimumBalance());
     }
 
 }

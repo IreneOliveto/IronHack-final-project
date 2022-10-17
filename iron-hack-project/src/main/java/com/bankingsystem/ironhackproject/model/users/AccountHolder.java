@@ -4,37 +4,35 @@ import com.bankingsystem.ironhackproject.ConfigSecurity.Role;
 import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 import com.bankingsystem.ironhackproject.model.accounts.Account;
 import com.bankingsystem.ironhackproject.model.utils.Address;
-import com.bankingsystem.ironhackproject.model.utils.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Set;
 
 @Entity
 public class AccountHolder extends User {
     protected String name;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @Nullable
     private String mailingAddress;
     @Embedded
     private Address primaryAddress;
+    @JsonIgnore
     @OneToOne
     private Account account;
 
     // Constructor
     public AccountHolder(){}
-    public AccountHolder(Integer userId, String username, String password, Set<Role> roles, String name, Date dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
+    public AccountHolder(Integer userId, String username, String password, Set<Role> roles, String name, Account account) {
         super(userId, username, password, roles);
-        setDateOfBirth(dateOfBirth);
         setName(name);
-        setPrimaryAddress(primaryAddress);
-        setDateOfBirth(dateOfBirth);
-        setMailingAddress(mailingAddress);
         setAccount(account);
     }
 
-    public AccountHolder(String name, Date dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
+    public AccountHolder(String name, LocalDate dateOfBirth, @Nullable String mailingAddress, Address primaryAddress, Account account) {
         setDateOfBirth(dateOfBirth);
         setName(name);
         setPrimaryAddress(primaryAddress);
@@ -60,11 +58,11 @@ public class AccountHolder extends User {
         this.primaryAddress = primaryAddress;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

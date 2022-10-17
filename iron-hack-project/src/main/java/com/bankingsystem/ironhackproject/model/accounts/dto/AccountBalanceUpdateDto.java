@@ -1,4 +1,4 @@
-package com.bankingsystem.ironhackproject.model.accounts;
+package com.bankingsystem.ironhackproject.model.accounts.dto;
 
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,6 +1,5 @@
 package com.bankingsystem.ironhackproject.model.accounts;
 
-import com.bankingsystem.ironhackproject.ConfigSecurity.User;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,7 +7,6 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -31,30 +29,40 @@ public abstract class Account {
     protected AccountHolder secondaryAccountHolder;
 
     @Valid
-    @PastOrPresent
     protected LocalDate creationDate;
     @Nullable
     private LocalDate lastModifiedDate;
 
+    // Constructors
     public Account(){}
 
-    public Account(int accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee) {
+    public Account(int accountId, Money balance, AccountHolder accountHolder) {
         setAccountId(accountId);
         setBalance(balance);
         setPrimaryOwner(accountHolder);
-        setPenaltyFee(penaltyFee);
+        setPenaltyFee();
     }
 
-    public Account(Integer accountId, Money balance, AccountHolder accountHolder, BigDecimal penaltyFee, @Nullable AccountHolder secondaryAccountHolder, User user, LocalDate creationDate, @Nullable LocalDate lastModifiedDate) {
+    public Account(Integer accountId, Money balance, AccountHolder accountHolder, @Nullable AccountHolder secondaryAccountHolder, LocalDate creationDate, @Nullable LocalDate lastModifiedDate) {
         setAccountId(accountId);
         setBalance(balance);
         setAccountHolder(accountHolder);
-        setPenaltyFee(penaltyFee);
+        setPenaltyFee();
         setSecondaryAccountHolder(secondaryAccountHolder);
         setCreationDate(creationDate);
         setLastModifiedDate(lastModifiedDate);
     }
 
+    public Account(Money balance, AccountHolder accountHolder, @Nullable AccountHolder secondaryAccountHolder, LocalDate creationDate, @Nullable LocalDate lastModifiedDate) {
+        setBalance(balance);
+        setAccountHolder(accountHolder);
+        setPenaltyFee();
+        setSecondaryAccountHolder(secondaryAccountHolder);
+        setCreationDate(creationDate);
+        setLastModifiedDate(lastModifiedDate);
+    }
+
+    //Methods
     public void transferMoney(Account accountReceiver, Money amountToSend) {
         if (balance.getAmount().compareTo(amountToSend.getAmount()) < 0) {
             throw new IllegalArgumentException("The amount to send cannot be greater than the account's current balance.");
@@ -62,9 +70,14 @@ public abstract class Account {
             throw new IllegalArgumentException("The amount cannot be sent to the same account.");
         }
         setBalance(new Money(balance.getAmount().subtract(amountToSend.getAmount())));
-        accountReceiver.setBalance(new Money(balance.getAmount().add(amountToSend.getAmount())));
+        accountReceiver.setBalance(new Money(accountReceiver.getBalance().getAmount().add(amountToSend.getAmount())));
     }
 
+    public void depositMoney(Account accountReceiver, Money amountToSend) {
+        accountReceiver.setBalance(new Money(accountReceiver.getBalance().getAmount().add(amountToSend.getAmount())));
+    }
+
+    // Getters & Setters
     public @Valid Integer getAccountId() {
         return accountId;
     }
@@ -78,6 +91,9 @@ public abstract class Account {
     }
 
     public void setCreationDate(LocalDate creationDate) {
+        if(creationDate == null) {
+            this.creationDate = LocalDate.now();
+        }
         this.creationDate = creationDate;
     }
 
@@ -111,7 +127,7 @@ public abstract class Account {
         return penaltyFee;
     }
 
-    public void setPenaltyFee(BigDecimal penaltyFee) {
+    public void setPenaltyFee() {
         this.penaltyFee = BigDecimal.valueOf(40);
     }
 

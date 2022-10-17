@@ -1,59 +1,56 @@
 package com.bankingsystem.ironhackproject.controller;
 
+import com.bankingsystem.ironhackproject.controller.accounts_controller.CheckingController;
 import com.bankingsystem.ironhackproject.model.accounts.Checking;
 import com.bankingsystem.ironhackproject.model.users.AccountHolder;
 import com.bankingsystem.ironhackproject.model.utils.Money;
+import com.bankingsystem.ironhackproject.model.utils.Status;
 import com.bankingsystem.ironhackproject.repository.accounts_repository.CheckingRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.bankingsystem.ironhackproject.service.accounts_service.CheckingService;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@SpringBootTest
 class CheckingControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
+
     @Autowired
     CheckingRepository checkingRepository;
-    private MockMvc mockMvc;
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        Money testBalance = new Money(BigDecimal.valueOf(400));
-        AccountHolder testAccountHolder = new AccountHolder("Test1");
-        Checking checking1 = new Checking(1, testBalance, testAccountHolder);
-
-        checkingRepository.save(checking1);
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
+    @Mock
+    CheckingService checkingService;
+    @InjectMocks
+    CheckingController checkingController;
 
     @Test
     void getCheckingBalanceByAccountId() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/checking/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+        int ACCOUNT_ID_TEST = 13;
+        Money BALANCE_TEST = new Money(BigDecimal.valueOf(8000));
+        AccountHolder ACCOUNT_HOLDER_TEST = new AccountHolder();
+        int SECRET_KEY_TEST = 123;
+        BigDecimal MINIMUM_BALANCE_TEST = BigDecimal.valueOf(250);
+        BigDecimal MAINTENANCE_FEE_TEST = BigDecimal.valueOf(12);
+        LocalDate CREATION_DATE_TEST = LocalDate.of(2022, 5, 5);
+        Status STATUS_TEST = Status.ACTIVE;
 
-        Checking checking = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Checking.class );
+        Checking checkingTest = new Checking(ACCOUNT_ID_TEST, BALANCE_TEST, ACCOUNT_HOLDER_TEST, SECRET_KEY_TEST, MINIMUM_BALANCE_TEST, MAINTENANCE_FEE_TEST, CREATION_DATE_TEST, STATUS_TEST);
 
-        assertEquals(checking.getBalance(), BigDecimal.valueOf(400));
+
+        when(checkingService.findCheckingByAccountId(ACCOUNT_ID_TEST)).thenReturn(checkingTest);
+        checkingController.getChecking(ACCOUNT_ID_TEST);
+        verify(checkingService).findCheckingByAccountId(13);
     }
 
 }

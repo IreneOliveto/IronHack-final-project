@@ -1,10 +1,12 @@
 package com.bankingsystem.ironhackproject.service.accounts_service;
 
-import com.bankingsystem.ironhackproject.model.accounts.AccountBalanceUpdateDto;
+import com.bankingsystem.ironhackproject.model.accounts.dto.AccountBalanceUpdateDto;
 import com.bankingsystem.ironhackproject.model.accounts.CreditCard;
 import com.bankingsystem.ironhackproject.repository.accounts_repository.CreditCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class CreditCardServiceImpl implements CreditCardService{
@@ -13,7 +15,12 @@ public class CreditCardServiceImpl implements CreditCardService{
 
     @Override
     public CreditCard findCreditCardByAccountId(Integer accountId) {
-        return creditCardRepository.findByAccountId(accountId).orElse(null);
+        return creditCardRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public CreditCard saveNewCreditCard(CreditCard creditCard) {
+        return creditCardRepository.save(creditCard);
     }
 
     @Override

@@ -18,14 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CreditCardTest {
     final static int ACCOUNT_ID = 1;
     final static Money SIX_HUNDRED_EUROS = new Money(BigDecimal.valueOf(600), Currency.getInstance("EUR"));
-    final static Money EXPECTED_BALANCE = new Money(BigDecimal.valueOf(672));
+    final static Money EXPECTED_BALANCE = new Money(BigDecimal.valueOf(757.78));
     final static AccountHolder ACCOUNT_HOLDER = new AccountHolder();
     final static BigDecimal PENALTY_FEE = BigDecimal.valueOf(20);
     final static LocalDate CREATION_DATE = LocalDate.of(2021, 10, 10);
     final static BigDecimal DEFAULT_CREDIT_LIMIT = BigDecimal.valueOf(100);
     final static BigDecimal VALID_CREDIT_LIMIT = BigDecimal.valueOf(100000);
     final static BigDecimal INVALID_CREDIT_LIMIT = BigDecimal.valueOf(200000);
-
     final static BigDecimal DEFAULT_INTEREST_RATE = BigDecimal.valueOf(0.2);
     final static BigDecimal VALID_INTEREST_RATE = BigDecimal.valueOf(0.15);
     final static BigDecimal INVALID_INTEREST_RATE = BigDecimal.valueOf(0.05);
