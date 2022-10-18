@@ -298,7 +298,7 @@ GET	  http:/localhost:8080/account/2
 
 *Request*
 
-PATCH	http:/localhost:8080/account/transfer
+PATCH	http:/localhost:8080/account/transfer/2
 
 *Request Body*
 
@@ -308,7 +308,7 @@ PATCH	http:/localhost:8080/account/transfer
 	  "receiverAccountId" : 7,
 	  "amount": {
 		"currency": "EUR",
-		"amount": 100
+		"amount": 300
 	    }
 	}
 
