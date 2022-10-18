@@ -46,8 +46,8 @@ Open the application in Intellij, and right click on src/test/java directory, an
 
 #### <a name="#get-admin">Get an admin account</a>
 
-		USERNAME: admin1
-		PASSWORD: admin123
+	USERNAME: admin
+	PASSWORD: admin123
 
 *Request*
 
@@ -64,8 +64,8 @@ GET 	/admin/4
 #### <a name="#get-account-holder">Get an account-holder account</a>
 
 
-		USERNAME: admin1
-		PASSWORD: admin123
+	USERNAME: admin
+	PASSWORD: admin123
 
 *Request*
 
@@ -107,8 +107,8 @@ GET 	http:/localhost:8080/account-holder/2
 
 #### <a name="#get-third-party">Get a Third-Party user</a>
 
-		USERNAME: admin1
-		PASSWORD: admin123
+	USERNAME: admin
+	PASSWORD: admin123
 		
 *Request*
 
@@ -125,8 +125,8 @@ GET 	http:/localhost:8080/admin/third-party/3
 
 #### <a name="#create-checking">Create new Checking Account for the account holder younger than 24</a>
 
-		USERNAME: admin1
-		PASSWORD: admin123
+	USERNAME: admin1
+	PASSWORD: admin123
 
 *Request*
 
@@ -154,8 +154,8 @@ POST http:/localhost:8080/checking
 
 #### <a name="#increase-checking">Increase Checking Account by 100</a>
 
-		USERNAME: admin1
-		PASSWORD: admin123
+	USERNAME: admin1
+	PASSWORD: admin123
 
 *Request*
 
@@ -163,12 +163,12 @@ PATCH http:/localhost:8080/checking/3/deposit
 
 *Request Body*
 
-		{
-		"balance": {
-			"currency": "EUR",
-			"amount": 100
-		    }
-		}
+	{
+	"balance": {
+		"currency": "EUR",
+		"amount": 100
+	    }
+	}
 
 *Response*
 
@@ -190,8 +190,8 @@ PATCH http:/localhost:8080/checking/3/deposit
 
 #### <a name="#withdrawal">Withdrawal from a third-party account</a>
 
-		USERNAME: third_party
-		PASSWORD: 123
+	USERNAME: third_party
+	PASSWORD: 123
 		
 *Request*
 
@@ -221,8 +221,8 @@ HEADER hashedKey 111
 
 Account1 has a Checking Account and a Credit Card
 
-		USERNAME: user1
-		PASSWORD: user123
+	USERNAME: user1
+	PASSWORD: user123
 		
 *Request*
 
@@ -292,8 +292,8 @@ GET	  http:/localhost:8080/account/2
 	
 #### <a name="#transaction">Do a transaction between two accounts</a>
 
-		USERNAME: user1
-		PASSWORD: user123
+	USERNAME: user1
+	PASSWORD: user123
 
 
 *Request*
