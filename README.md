@@ -29,7 +29,7 @@ And then follow the step by step guide (below) to interact with the system.
 
 ### To run tests
 
-Open the application in Intellij, and right click on src/test/java directory in project explorer, and right click -> Run As -> JUnit test
+Open the application in Intellij, and right click on src/test/java directory, and right click -> Run 'All Tests'.
 
 ## Use Cases
 
@@ -298,7 +298,7 @@ GET	  http:/localhost:8080/account/2
 
 *Request*
 
-PATCH	http:/localhost:8080/account/transfer
+PATCH	http:/localhost:8080/account/transfer/2
 
 *Request Body*
 
@@ -308,7 +308,7 @@ PATCH	http:/localhost:8080/account/transfer
 	  "receiverAccountId" : 7,
 	  "amount": {
 		"currency": "EUR",
-		"amount": 100
+		"amount": 300
 	    }
 	}
 
