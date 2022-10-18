@@ -26,7 +26,4 @@ public class SavingsController {
         return savingsService.updateSavingsBalance(accountId,balance);
     }
 
-
-
-
 }
