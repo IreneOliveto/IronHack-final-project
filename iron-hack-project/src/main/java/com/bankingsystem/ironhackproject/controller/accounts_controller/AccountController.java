@@ -23,9 +23,9 @@ public class AccountController {
         return accountService.getAllAccountsByUserId(userId);
     }
     @PreAuthorize("#accountId == principal.user.userId or hasRole('ROLE_ADMIN')")
-    @PatchMapping("/account/transfer")
+    @PatchMapping("/account/transfer/{accountId}")
     @ResponseStatus(HttpStatus.OK)
-    public boolean transferMoney(@RequestBody TransferDto request) {
+    public boolean transferMoney(@PathVariable(value="accountId") Integer accountId, @RequestBody TransferDto request) {
         return accountService.transferMoney(request.getSenderAccountId(), request.getReceiverName(), request.getReceiverAccountId(), request.getAmount());
     }
 
