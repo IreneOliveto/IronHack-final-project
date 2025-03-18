@@ -1,4 +1,4 @@
-# BANCKING APP
+# BANKING APP
 # IronHack - FinalProject
 
 This guide show to interact with the REST api using tools like Postman. You will find the steps below to setup test data using REST API request and the corresponding response.
